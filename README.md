@@ -10,3 +10,5 @@ Departments in the system:
 ● Audio/Video
 ● Security
 ● Housekeeping
+
+We're working on creating classes for departments in the system. Will upload code shortly.
