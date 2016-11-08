@@ -22,5 +22,4 @@ Users in the system:
 ● Housekeeping supervisor and staff
 
 Creating classes for the users.
-
 All code to be up shortly.
