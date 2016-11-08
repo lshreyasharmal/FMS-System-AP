@@ -20,3 +20,5 @@ Users in the system:
 ● Audio/video supervisor and staff
 ● Security supervisor and security staff
 ● Housekeeping supervisor and staff
+
+Creating classes for the users.
