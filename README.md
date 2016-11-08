@@ -12,3 +12,11 @@ Departments in the system:
 ● Housekeeping
 
 We're working on creating classes for departments in the system. Will upload code shortly.
+
+Users in the system:
+● GM or Admin
+● Electricity supervisor and staff
+● HVAC supervisor and staff
+● Audio/video supervisor and staff
+● Security supervisor and security staff
+● Housekeeping supervisor and staff
