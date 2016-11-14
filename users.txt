@@ -1,0 +1,12 @@
+//id, username, password
+001,admin,adminPass
+002,hsuper,hpass
+003,esuper,epass
+004,ssuper,spass
+005,avsuper,avpass
+006,hvacsuper,hvacpass
+007,user1,pass1
+008,user2,pass2
+009,user3,pass3
+010,user4,pass4
+011,user5,pass5
