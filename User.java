@@ -1,43 +1,36 @@
 class User
 {
-	String Username;
-	String user_id;
-	String password;
+	String UserName;
+	String UserID;
+	String Password;
+	User(String UserName,String UserID, String Password){
+		this.UserID=UserID;
+		this.UserName=UserName;
+		this.Password=Password;}
 	
-	public void login(String str)
+	public void login(String str){}
+	public void logout(){}
+	public String getUserName(){
+		return this.UserName;
+		}
+	public void setUserName(String s)
 	{
-		
-	}
-	public void logout()
-	{
-		
-	}
-	public String getUsername()
-	{
-		
-	}
-	public void setUSername()
-	{
-		
+		this.UserName=s;
 	}
 	public String getPassword()
 	{
-		
+		return this.Password;
 	}
-	public void setPassword()
+	public void setPassword(String p)
 	{
-		
+		this.Password=p;
 	}
-	public String getUserId()
+	public String getUserID()
 	{
-		
+		return UserID;
 	}
-	public void setUserId()
+	public void setUserId(String id)
 	{
-		
-	}
-	User()
-	{
-		
+		this.UserID=id;
 	}
 }
