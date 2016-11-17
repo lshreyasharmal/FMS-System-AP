@@ -10,6 +10,28 @@ class system extends JFrame
 	private ArrayList<User> users= new ArrayList<User>();
 	private int noUsers;
 	
+	public int check(String string)
+	{
+		for(int i =0;i<users.size();i++)
+		{
+			User mmm = users.get(i);
+			if(string.equals(mmm.getUserName()))
+				{return -1;}
+		}
+		return 1;
+	}
+	
+	public int checkLogin(String string)
+	{
+		for(int i =0;i<users.size();i++)
+		{
+			User mmm = users.get(i);
+			if(string.equals(mmm.getUserName()))
+				{return 1;}
+		}
+		return -1;
+	}
+	
 	public void readFileUsers()
     {
     BufferedReader br= null;
@@ -36,7 +58,14 @@ class system extends JFrame
     }    
     }
 	
-	public void writeFileUsers(String s1,String s2){
+	public void Register(String s1,String s2){
+		
+		if(check(s1)==-1)
+		{
+			JOptionPane.showMessageDialog(null, "This Username is taken! ", "Error", JOptionPane.ERROR_MESSAGE);
+			mainGUI();
+		}
+		else{
 		try
 		{
 		FileWriter fr= new FileWriter("users.txt",true);
@@ -53,19 +82,14 @@ class system extends JFrame
 		out.close();
 		}
 		catch(Exception e)
-		{e.printStackTrace();}
-	}
-	
-	public void Register()
-	{
-		
+		{e.printStackTrace();}}
 	}
 	
 	public void login(String s1, String s2)
 	{
 
-		check that username and password are valid.
-		if(check(s1)==1)
+		//check that username and password are valid.
+		if(checkLogin(s1)==1)
 		{
 			//display the login GUI
 			//GUI depeneds on the user.
@@ -102,29 +126,26 @@ class system extends JFrame
 		{
 			//User not found. Login again.
 			JOptionPane.showMessageDialog(null, "Wrong credentials entered. Try logging in again.", "Error", JOptionPane.ERROR_MESSAGE);
-			s.mainGUI();
+			mainGUI();
 		}
 	}
 	public void logout()
-	{
-		
-	}
+	{}
 	
-	public void mainGUI()
-	{
-		system s = new system();
+	public void mainGUI(){
 		Frame1.setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Object[] options = {"Register","Login"};
 		int n = JOptionPane.showOptionDialog(Frame1,"FMS Syste"+ "m","FMS System",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[1]);
 		if(n==JOptionPane.YES_OPTION){
 			String username = JOptionPane.showInputDialog(Frame1,"Enter Username :");
-			String password = JOptionPane.showInputDialog(Frame1,"Eneter Password :");
-			s.writeFileUsers(username,password);
+			String password = JOptionPane.showInputDialog(Frame1,"Enter Password :");
+			Register(username,password);
 		}
 		if(n==JOptionPane.NO_OPTION){
 			String username = JOptionPane.showInputDialog(Frame1,"Enter Username :");
 			String password = JOptionPane.showInputDialog(Frame1,"Eneter Password :");
-			s.login(username,password);
+			login(username,password);
 			}
 	}
 	
@@ -134,6 +155,7 @@ class system extends JFrame
 		s.noUsers=0;
 		s.readFileUsers();
 		s.mainGUI();
-		
 	}
+
+	
 }
