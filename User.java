@@ -1,9 +1,9 @@
 class User
 {
 	String UserName;
-	String UserID;
+	int UserID;
 	String Password;
-	User(String UserName,String UserID, String Password){
+	User(String UserName,int UserID, String Password){
 		this.UserID=UserID;
 		this.UserName=UserName;
 		this.Password=Password;}
@@ -25,11 +25,11 @@ class User
 	{
 		this.Password=p;
 	}
-	public String getUserID()
+	public int getUserID()
 	{
 		return UserID;
 	}
-	public void setUserId(String id)
+	public void setUserId(int id)
 	{
 		this.UserID=id;
 	}
