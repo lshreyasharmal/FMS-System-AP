@@ -57,17 +57,62 @@ class system extends JFrame
 	}
 	
 	public void Register()
-	{}
-	public void login()
-	{}
-	public void logout()
-	{}
+	{
+		
+	}
 	
-	public static void main(String[] args)
+	public void login(String s1, String s2)
+	{
+
+		check that username and password are valid.
+		if(check(s1)==1)
+		{
+			//display the login GUI
+			//GUI depeneds on the user.
+			if(s1.equals("admin"))
+			{
+				
+			}
+			else if(s1.equals("hsuper"))
+			{
+				
+			}
+			else if(s1.equals("ssuper"))
+			{
+				
+			}
+			else if(s1.equals("esuper"))
+			{
+				
+			}
+			else if(s1.equals("avsuper"))
+			{
+				
+			}
+			else if(s1.equals("hvacsuper"))
+			{
+				
+			}
+			else 
+			{
+				
+			}
+		}
+		else
+		{
+			//User not found. Login again.
+			JOptionPane.showMessageDialog(null, "Wrong credentials entered. Try logging in again.", "Error", JOptionPane.ERROR_MESSAGE);
+			s.mainGUI();
+		}
+	}
+	public void logout()
+	{
+		
+	}
+	
+	public void mainGUI()
 	{
 		system s = new system();
-		s.noUsers=0;
-		s.readFileUsers();
 		Frame1.setVisible(true);
 		Object[] options = {"Register","Login"};
 		int n = JOptionPane.showOptionDialog(Frame1,"FMS Syste"+ "m","FMS System",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[1]);
@@ -78,7 +123,17 @@ class system extends JFrame
 		}
 		if(n==JOptionPane.NO_OPTION){
 			String username = JOptionPane.showInputDialog(Frame1,"Enter Username :");
-			String password = JOptionPane.showInputDialog(Frame1,"Eneter Password :");}
+			String password = JOptionPane.showInputDialog(Frame1,"Eneter Password :");
+			s.login(username,password);
+			}
+	}
+	
+	public static void main(String[] args)
+	{
+		system s = new system();
+		s.noUsers=0;
+		s.readFileUsers();
+		s.mainGUI();
 		
 	}
 }
