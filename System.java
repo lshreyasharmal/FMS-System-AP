@@ -9,7 +9,17 @@ class system extends JFrame
 	//Department Department[];
 	private ArrayList<User> users= new ArrayList<User>();
 	private int noUsers;
-	
+	public int check(String string){
+	    
+		for(int i =0;i<users.size();i++)
+		{
+			User mmm ;
+			mmm = users.get(i);
+			if(string.equals(mmm.getUserName()))
+				{return -1;}
+		}
+		return 1;
+		}
 	public void readFileUsers()
     {
     BufferedReader br= null;
@@ -43,6 +53,7 @@ class system extends JFrame
 			JOptionPane.showMessageDialog(null, "This Username is taken! ", "Error", JOptionPane.ERROR_MESSAGE);
 			mainGUI();
 		}
+		else{
 		try
 		{
 		FileWriter fr= new FileWriter("users.txt",true);
@@ -59,7 +70,7 @@ class system extends JFrame
 		out.close();
 		}
 		catch(Exception e)
-		{e.printStackTrace();}
+		{e.printStackTrace();}}
 	}
 	
 	public void login(String s1, String s2)
@@ -133,16 +144,6 @@ class system extends JFrame
 		s.readFileUsers();
 		s.mainGUI();
 	}
-	public int check(String string){
-    
-		for(int i =0;i<users.size();i++)
-		{
-			User mmm ;
-			mmm = users.get(i);
-			if(string.equals(mmm.getUserName()))
-				{return -1;}
-		}
-		return 1;
-		}
+
 	
 }
