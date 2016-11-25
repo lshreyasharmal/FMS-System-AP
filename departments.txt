@@ -4,4 +4,3 @@ Electricity,esuper,user2
 Security,ssuper,user3
 AudioVideo,avsuper,user4
 HVAC,hvacsuper,user5
-miscellaneousdept, misccsuper,user6
