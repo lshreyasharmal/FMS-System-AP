@@ -16,7 +16,11 @@ class User
 		this.dob=dob;
 	}
 	
-	public void login(String str){}
+	public void login()
+	{
+		//depending on the type of user, we'll have the GUI.
+		
+	}
 	public void logout(){}
 	
 	public String getUserName()

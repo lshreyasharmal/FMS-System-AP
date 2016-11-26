@@ -1,7 +1,8 @@
 import java.io.*;
 import java.util.*;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 class system extends JFrame
 {
@@ -27,7 +28,7 @@ class system extends JFrame
 		{
 			User mmm = users.get(i);
 			if(string.equals(mmm.getUserName()))
-				{return 1;}
+				{mmm.login(); return 1;}
 		}
 		return -1;
 	}
@@ -41,11 +42,16 @@ class system extends JFrame
     String line=null; 
     while((line=br.readLine())!=null)
     {
-	User mmm= new User(null,0,null);
+	User mmm= new User(null,0,null,null,null,null,null,null);
 	String lines[]=line.split(",");
 	mmm.setUserId(Integer.parseInt(lines[0]));
-	mmm.setUserName(lines[1]);
-	mmm.setPassword(lines[2]);
+	mmm.setName(lines[1]);
+	mmm.setDOB(lines[2]);
+	mmm.setAddress(lines[3]);
+	mmm.setUserType(lines[4]);
+	mmm.setDepartment(lines[5]);
+	mmm.setUserName(lines[6]);
+	mmm.setPassword(lines[7]);
 	users.add(mmm);
     }
 	noUsers=users.size();
@@ -58,7 +64,7 @@ class system extends JFrame
     }    
     }
 	
-	public void Register(String s1,String s2){
+	public void Register(String s1,String s2,String s3,String s4,String s5, String s6, String s7){
 		
 		if(check(s1)==-1)
 		{
@@ -73,9 +79,14 @@ class system extends JFrame
 		PrintWriter out= new PrintWriter(br);
 			User mmm=users.get(noUsers-1);
 			int id= mmm.getUserID()+1;
-			mmm= new User(s1,id,s2);
+			mmm= new User(s1,id,s2,s3,s4,s5,s6,s7);
 			users.add(mmm);
 			out.write(id+",");
+			out.write(s3 +",");
+			out.write(s4 +",");
+			out.write(s5 +",");
+			out.write(s6 +",");
+			out.write(s7 +",");
 			out.write(s1 +",");
 			out.write(s2);
 			out.write("\n");		
@@ -91,36 +102,8 @@ class system extends JFrame
 		//check that username and password are valid.
 		if(checkLogin(s1)==1)
 		{
-			//display the login GUI
-			//GUI depeneds on the user.
-			if(s1.equals("admin"))
-			{
-				
-			}
-			else if(s1.equals("hsuper"))
-			{
-				
-			}
-			else if(s1.equals("ssuper"))
-			{
-				
-			}
-			else if(s1.equals("esuper"))
-			{
-				
-			}
-			else if(s1.equals("avsuper"))
-			{
-				
-			}
-			else if(s1.equals("hvacsuper"))
-			{
-				
-			}
-			else 
-			{
-				
-			}
+			//simply login the user.
+			//done in checkLogin() itself...
 		}
 		else
 		{
@@ -138,9 +121,41 @@ class system extends JFrame
 		Object[] options = {"Register","Login"};
 		int n = JOptionPane.showOptionDialog(Frame1,"FMS Syste"+ "m","FMS System",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[1]);
 		if(n==JOptionPane.YES_OPTION){
-			String username = JOptionPane.showInputDialog(Frame1,"Enter Username :");
-			String password = JOptionPane.showInputDialog(Frame1,"Enter Password :");
-			Register(username,password);
+			JLabel l1=new JLabel(); l1.setText("Enter Name :");
+			JTextField txt1= new JTextField();txt1.setColumns(20);
+			add(l1); add(txt1);
+			JLabel l2=new JLabel(); l2.setText("Enter Date Of Birth(DD/MM/YYYY) :");
+			JTextField txt2= new JTextField();txt2.setColumns(20);
+			add(l2); add(txt2);
+			JLabel l3=new JLabel(); l3.setText("Enter Address :");
+			JTextField txt3= new JTextField();txt3.setColumns(20);
+			add(l3); add(txt3);
+			JLabel l4=new JLabel(); l4.setText("Enter User Type(supervisor/staff/admin) :");
+			JTextField txt4= new JTextField();txt4.setColumns(20);
+			add(l4); add(txt4);
+			JLabel l5=new JLabel(); l5.setText("Enter Department :");
+			JTextField txt5= new JTextField();txt5.setColumns(20);
+			add(l5); add(txt5);
+			JLabel l6=new JLabel(); l6.setText("Enter Username :");
+			JTextField txt6= new JTextField();txt6.setColumns(20);
+			add(l6); add(txt6);
+			JLabel l7=new JLabel(); l7.setText("Enter Password :");
+			JTextField txt7= new JTextField();txt7.setColumns(20);
+			add(l7); add(txt7);
+			JButton b= new JButton(); b.setText("Submit");
+			add(b);
+			setLayout(new FlowLayout(10)); setVisible(true); setSize(500,500);
+			 b.addActionListener( new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+			String name= txt1.getText();
+			String dob= txt2.getText();
+			String add= txt3.getText();
+			String type= txt4.getText();
+			String dept= txt5.getText();
+			String username= txt6.getText();
+			String password= txt7.getText();
+			Register(username,password,name,dob,add,type,dept);}} );
+
 		}
 		if(n==JOptionPane.NO_OPTION){
 			String username = JOptionPane.showInputDialog(Frame1,"Enter Username :");
