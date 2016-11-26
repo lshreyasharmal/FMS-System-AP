@@ -1,22 +1,33 @@
+import java.util.*;
 class User
 {
-	String UserName;
-	int UserID;
-	String Password;
-	User(String UserName,int UserID, String Password){
+	private String UserName,Password,name,address,userType,department,dob;
+	private int UserID;
+	
+	User(String UserName,int UserID, String Password, String name, String address, String userType,String department, String dob)
+	{
 		this.UserID=UserID;
 		this.UserName=UserName;
-		this.Password=Password;}
+		this.Password=Password;
+		this.name=name;
+		this.address=address;
+		this.userType=userType;
+		this.department=department;
+		this.dob=dob;
+	}
 	
 	public void login(String str){}
 	public void logout(){}
-	public String getUserName(){
+	
+	public String getUserName()
+	{
 		return this.UserName;
-		}
+	}
 	public void setUserName(String s)
 	{
 		this.UserName=s;
 	}
+	
 	public String getPassword()
 	{
 		return this.Password;
@@ -25,6 +36,7 @@ class User
 	{
 		this.Password=p;
 	}
+	
 	public int getUserID()
 	{
 		return UserID;
@@ -33,4 +45,51 @@ class User
 	{
 		this.UserID=id;
 	}
+	
+	public String getName()
+	{
+		return this.name;
+	}
+	public void setName(String s)
+	{
+		this.name=s;
+	}
+	
+	public String getAddress()
+	{
+		return this.address;
+	}
+	public void setAddress(String s)
+	{
+		this.address=s;
+	}
+	
+	public String getUserType()
+	{
+		return this.userType;
+	}
+	public void setUserType(String s)
+	{
+		this.userType=s;
+	}
+	
+	public String getDepartment()
+	{
+		return this.department;
+	}
+	public void setDepartment(String s)
+	{
+		this.department=s;
+	}
+	
+	public String getDOB()
+	{
+		return this.dob;
+	}
+	public void setDOB(String s)
+	{
+		this.dob=s;
+	}
+
+
 }
