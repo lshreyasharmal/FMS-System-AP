@@ -144,7 +144,7 @@ class system extends JFrame
 			add(l7); add(txt7);
 			JButton b= new JButton(); b.setText("Submit");
 			add(b);
-			setLayout(new FlowLayout(10)); setVisible(true); setSize(500,500);
+			setLayout(new FlowLayout(10)); setVisible(true); setSize(300,400);
 			 b.addActionListener( new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 			String name= txt1.getText();
