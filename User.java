@@ -1,9 +1,11 @@
 import java.util.*;
-class User
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+class User extends JFrame
 {
-	private String UserName,Password,name,address,userType,department,dob;
-	private int UserID;
-	
+	protected String UserName,Password,name,address,userType,department,dob;
+	protected int UserID,noUsers,approved;
+	ArrayList<User> users= new ArrayList<User>();
 	User(String UserName,int UserID, String Password, String name, String address, String userType,String department, String dob)
 	{
 		this.UserID=UserID;
@@ -17,9 +19,20 @@ class User
 	}
 	
 	public void login()
-	{
-		//depending on the type of user, we'll have the GUI.
-		
+	{ 
+		if(this instanceof Admin )
+		{
+			((Admin) this).adminGUI();
+		}
+		else if(this instanceof Supervisor )
+		{
+			((Supervisor) this).supGUI();
+		}
+		else if(this instanceof Staff )
+		{
+			((Staff) this).staffGUI();
+		}
+			
 	}
 	public void logout(){}
 	
@@ -94,6 +107,7 @@ class User
 	{
 		this.dob=s;
 	}
-
+	
+	
 
 }

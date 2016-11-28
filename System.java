@@ -83,6 +83,7 @@ class system extends JFrame
 		}
 		else if(s1.equals("")||s2.equals("")||s3.equals("")||s4.equals("")||s5.equals("")||s6.equals("")||s7.equals("")){
 			JOptionPane.showMessageDialog(null, "Empty Fields ", "Error", JOptionPane.ERROR_MESSAGE);
+			RegisterGUI();
 		}
 		else{
 		try
