@@ -24,7 +24,7 @@ class User extends JFrame
 		{
 			((Admin) this).adminGUI();
 		}
-		else if(this instanceof Supervisor )
+		else if(this instanceof Supervisor)
 		{
 			((Supervisor) this).supGUI();
 		}
