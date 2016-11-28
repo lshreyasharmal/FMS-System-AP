@@ -8,6 +8,7 @@ class system extends JFrame
 {
 	JFrame Frame1 = new JFrame("Registration Form");
 	JPanel panel = new JPanel();
+	static Admin admin = Admin.getInstance();
 	ArrayList<User> users= new ArrayList<User>();
 	int noUsers;
 	
@@ -56,9 +57,8 @@ class system extends JFrame
 	String dept=lines[5];
 	String username=lines[6];
 	String pass =lines[7];
-	if(type.equals("admin"))
-		mmm= new Admin(username,id,pass,name,addr,type,dept,dob);
-	else if(type.equals("supervisor"))
+	
+	if(type.equals("supervisor"))
 		mmm= new Supervisor(username,id,pass,name,addr,type,dept,dob);
 	else if(type.equals("staff"))
 		mmm= new Staff(username,id,pass,name,addr,type,dept,dob);
@@ -114,59 +114,43 @@ class system extends JFrame
 		{e.printStackTrace();}}
 	}
 	
-	public void logout()
-	{}
-	
 	public void mainGUI(){
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Object[] options = {"Register","Login"};
 		int n = JOptionPane.showOptionDialog(Frame1,"FMS Syste"+ "m","FMS System",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[1]);
-		if(n==JOptionPane.YES_OPTION){
-			RegisterGUI();
-
-		}
+		if(n==JOptionPane.YES_OPTION){RegisterGUI();}
 		if(n==JOptionPane.NO_OPTION){
 			String username = JOptionPane.showInputDialog(Frame1,"Enter Username :");
 			String password = JOptionPane.showInputDialog(Frame1,"Eneter Password :");
+			if(username.equals(admin.getUserName())&&password.equals(admin.getPassword()))
+			{admin.adminGUI();}
+			else
 			checklogin(username,password);
 			}
 	}
 	public void RegisterGUI(){
-		
-		JLabel l1=new JLabel(); l1.setText("Enter Name :");
-		JTextField txt1= new JTextField("");txt1.setColumns(20);
-		panel.add(l1); panel.add(txt1);
-		JLabel l2=new JLabel(); l2.setText("Enter Date Of Birth(DD/MM/YYYY) :");
-		JTextField txt2= new JTextField("");txt2.setColumns(20);
-		panel.add(l2); panel.add(txt2);
-		JLabel l3=new JLabel(); l3.setText("Enter Address :");
-		JTextField txt3= new JTextField("");txt3.setColumns(20);
-		panel.add(l3); panel.add(txt3);
-		JLabel l4=new JLabel(); l4.setText("Enter User Type(supervisor/staff/admin) :");
-		JTextField txt4= new JTextField("");txt4.setColumns(20);
-		panel.add(l4); panel.add(txt4);
-		JLabel l5=new JLabel(); l5.setText("Enter Department :");
-		JTextField txt5= new JTextField("");txt5.setColumns(20);
-		panel.add(l5); panel.add(txt5);
-		JLabel l6=new JLabel(); l6.setText("Enter Username :");
-		JTextField txt6= new JTextField("");txt6.setColumns(20);
-		panel.add(l6); panel.add(txt6);
-		JLabel l7=new JLabel(); l7.setText("Enter Password :");
-		JTextField txt7= new JTextField("");txt7.setColumns(20);
-		panel.add(l7); panel.add(txt7);
+		JLabel jlabel[] = new JLabel[7];
+		JTextField txt[] = new JTextField[7];
+		String labelname[] = {"Enter Name :","Enter Date Of Birth(DD/MM/YYYY) :","Enter Address :","Enter User Type(supervisor/staff) :","Enter Department :","Enter Username :","Enter Password :"};
+		for(int i=0;i<8;i++)
+		{
+			jlabel[i] = new JLabel(labelname[i]);
+			txt[i]=new JTextField(""); txt[i].setColumns(20);
+			panel.add(jlabel[i]);panel.add(txt[i]);
+		}
 		JButton b= new JButton(); b.setText("Submit");
 		panel.add(b);
 		Frame1.add(panel);
 		panel.setLayout(new FlowLayout(10)); panel.setVisible(true); Frame1.setSize(300,400);
 		 b.addActionListener( new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-		String name= txt1.getText();
-		String dob= txt2.getText();
-		String add= txt3.getText();
-		String type= txt4.getText();
-		String dept= txt5.getText();
-		String username= txt6.getText();
-		String password= txt7.getText();
+		String name= txt[1].getText();
+		String dob= txt[2].getText();
+		String add= txt[3].getText();
+		String type= txt[4].getText();
+		String dept= txt[5].getText();
+		String username= txt[6].getText();
+		String password= txt[7].getText();
 		Register(username,password,name,dob,add,type,dept);}} );
 		 Frame1.setVisible(true);
 	}
