@@ -82,7 +82,7 @@ class system extends JFrame
 			mainGUI();
 		}
 		else if(s1.equals("")||s2.equals("")||s3.equals("")||s4.equals("")||s5.equals("")||s6.equals("")||s7.equals("")){
-			JOptionPane.showMessageDialog(null, "Empty Fields! Please Fill The Entire Form ", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Empty Fields ", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		else{
 		try
@@ -104,7 +104,7 @@ class system extends JFrame
 			out.write(s2);
 			out.write("\n");
 		out.close();
-		Frame1.getContentPane().removeAll();
+		Frame1.remove(panel);
 		Frame1.dispose();
 		
 		mainGUI();
