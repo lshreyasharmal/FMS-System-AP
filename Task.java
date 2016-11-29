@@ -1,32 +1,37 @@
-import java.util.Date;
+import java.util.ArrayList;
 
 import javax.swing.*;
 //Task Report – ID, Task ID, Task Name, Task Description, Items used, Time Taken,
 //Comments.
 public class Task {
-	private Date Deadline, StartDate;
-	private String TaskID,TaskDept,TaskName;
+	private String Deadline, StartDate;
+	private int TaskID;
+	private String TaskDept,TaskName,Items,Des;
+	String staff;
 	public enum TaskStatus { COMPLETE,  NOT_STARTED, ONGOING } ;
-	Task(Date Deadline,Date StartDate,String TaskID, String TaskDept,String TaskName){
+	Task(String Deadline,String StartDate,int TaskID, String TaskDept,String TaskName,String Items,String Des,String staff){
 		this.Deadline=Deadline;
 		this.StartDate=StartDate;
 		this.TaskID=TaskID;
 		this.TaskDept=TaskDept;
 		this.TaskName=TaskName;
+		this.Items = Items;
+		this.Des = Des;
+		this.staff=staff;
 	}
 	public void setTaskName(String Name)
 	{
 		this.TaskName=Name;
 	}
-	public void setDeadline(Date date)
+	public void setDeadline(String String)
 	{
-		this.Deadline=date;
+		this.Deadline=String;
 	}
-	public void setStartDate(Date date)
+	public void setStartDate(String String)
 	{
-		this.StartDate=date;
+		this.StartDate=String;
 	}
-	public void setTaskID(String t)
+	public void setTaskID(int t)
 	{
 		this.TaskID=t;
 	}
@@ -38,15 +43,18 @@ public class Task {
 	{
 		return TaskName;
 	}
-	public Date getDeadline()
+	public String getDeadline()
 	{
 		return Deadline;
 	}
-	public Date getStartDate()
+	public void setItems(String t){
+		this.Items = t;
+	}
+	public String getStartDate()
 	{
 		return StartDate;
 	}
-	public String getTaskID()
+	public int getTaskID()
 	{
 		return TaskID;
 	}
@@ -54,6 +62,23 @@ public class Task {
 	{
 		return TaskDept;
 	}
+	public String getItems() {
+		// TODO Auto-generated method stub
+		return Items;
+	}
+	public String getDes() {
+		// TODO Auto-generated method stub
+		return Des;
+	}public void setDes(String y) {
+		// TODO Auto-generated method stub
+		this.Des = y;
+	}
+	/*public void setStaff(ArrayList<String> s){
+		this.staff = s;
+	}
+	public ArrayList<String> getStaff(){
+		return this.staff;
+	}*/
 	
 }//Task Report – ID, Task ID, Task Name, Task Description, Items used, Time Taken,
 //Comments.
