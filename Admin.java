@@ -3,7 +3,8 @@ import java.awt.FlowLayout;
 import java.awt.TextField;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
-
+import java.io.*;
+import java.util.*;
 import javax.swing.*;
 
 
@@ -25,7 +26,7 @@ public class Admin extends User{
 
    //constructor--private so that this class cannot be instantiated
    Admin()
-	{super("Admin",0,"admin","Riddhi Jain","IIIT Delhi","Admin","Admin","31/01/1990");}
+	{super("Admin",0,"admin","Riddhi Jain","IIIT Delhi","Admin","Admin","31/01/1990",1);}
 
    //Get the only object available
    public static Admin getInstance(){
@@ -178,19 +179,76 @@ public class Admin extends User{
 				kpanel.removeAll();
 				kpanel.revalidate();
 				mrpanel.setLayout(new BoxLayout(mrpanel,BoxLayout.Y_AXIS));
-				for(int i=0;i<6;i++)
+								system s=new system();
+				
+				//System.out.println("here" + s.getRequests().size());
+				int i,f;
+				ArrayList<String> arr = new ArrayList<String>(); 
+				ArrayList<String> info= new ArrayList<String>();
+				ArrayList<Integer> index= new ArrayList<>();
+				 ArrayList<Integer> status= new ArrayList<>();
+				int x=s.getRequests().size();
+				for( i=0;i<x;i++)
 				{
+					System.out.println(i);
+					if(s.getReq(i)==-1) {arr.add(s.getName(i)); info.add(s.getInfo(i)); index.add(i); status.add(-1);}
+				}
+				System.out.println(arr.size());
+				 for( i=0;i<arr.size();i++)
+				 {
+					// System.out.println(s.getRequests().get(i).getApproved());
+					// if(s.getRequests().get(i).getApproved()==1)
+					// {
+					
 					JPanel lpanel = new JPanel();JButton a = new JButton("Approve");
 					JButton r = new JButton("Reject");JButton v = new JButton("view");
-					JLabel t = new JLabel("please have sex with me?");
+					
+					String y=arr.get(i); JLabel t = new JLabel(y);
+					// v.addActionListener(new Event());
+					// if(e.getActionCommand()=="view"){
+					// JOptionPane.showMessageDialog(frame,info.get(i));
+					// }
+					String str= info.get(i);
+					v.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							// JDialog d = new JDialog(frame,str, true);
+							// d.setLocationRelativeTo(frame); d.setVisible(true);
+							JOptionPane.showMessageDialog(null, str);
+						}
+					});	
+					//f=0;				
+					a.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							// JDialog d = new JDialog(frame,str, true);
+							// d.setLocationRelativeTo(frame); d.setVisible(true);
+							JOptionPane.showMessageDialog(null, "Approved");
+							//mrpanel.remove(lpanel);// f=1;
+							t.setText(y+ " approved.");// remove(a); remove(v); remove(r);
+							//a.setText(""); v.setText(""); r.setText("");
+							a.setVisible(false); r.setVisible(false); v.setVisible(false);
+							//set status to 1.
+							//f(i,s);
+						//	status.set(i,1);
+						}
+					});
+					//System.out.println(t.getText(y));
+					//if(! (t.getText().equals("Approved"))){
+						
 					lpanel.add(t);a.setBackground(Color.green);r.setBackground(Color.red);
 					lpanel.add(a);a.setActionCommand("approve");v.setBackground(Color.CYAN);
 					lpanel.add(r);r.setActionCommand("reject");
 					lpanel.add(v);v.setActionCommand("view");
 					mrpanel.add(lpanel);
-				}
+					//}
+					// }
+				 }
 				rpanel.add(mrpanel);
 				frame.setVisible(true);
+			
 			}
 			if(e.getActionCommand()=="Leave Requests"){
 				b2.setBackground(Color.pink);

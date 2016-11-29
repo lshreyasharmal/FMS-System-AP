@@ -11,12 +11,7 @@ class system extends JFrame
 	static Admin admin = Admin.getInstance();
 	ArrayList<User> users= new ArrayList<User>();
 	int noUsers;
-	// static system instance = new system();
-	// private system(){}
-	// public static system getInstance()
-	// {
-		// return instance;
-	// }
+	
 	public int check(String string)
 	{
 		for(int i =0;i<users.size();i++)
@@ -80,6 +75,11 @@ class system extends JFrame
     }    
     }
 	
+		public void setUserStatus(int x)
+	{
+		users.get(x).setApproved(1);
+	}
+	
 	public ArrayList<User> getRequests() {readFileUsers();return users;}
 	
 	public void Register(String s1,String s2,String s3,String s4,String s5, String s6, String s7){
@@ -91,6 +91,14 @@ class system extends JFrame
 		}
 		else if(s1.equals("")||s2.equals("")||s3.equals("")||s4.equals("")||s5.equals("")||s6.equals("")||s7.equals("")){
 			JOptionPane.showMessageDialog(null, "Empty Fields ", "Error", JOptionPane.ERROR_MESSAGE);
+			
+		}
+		else if(s6.equals("supervisor")==false&&s6.equals("staff")==false){
+			JOptionPane.showMessageDialog(null, " Invalid User Type ", "Error", JOptionPane.ERROR_MESSAGE);
+			RegisterGUI();
+		}
+		else if(s7.equals("Houskeeping")==false&&s7.equals("Electricity")==false&&s7.equals("Security")==false&&s7.equals("Audio/Video")==false&&s7.equals("HVAC")==false){
+			JOptionPane.showMessageDialog(null, " Invalid Department, Can only be HVAC, Audio/Video, Electricity, Housekeeping or Security ", "Error", JOptionPane.ERROR_MESSAGE);
 			RegisterGUI();
 		}
 		else{
@@ -122,7 +130,7 @@ class system extends JFrame
 		{e.printStackTrace();}}
 	}
 	
-	public int getReq(int i)
+		public int getReq(int i)
 	{
 		return users.get(i).getApproved();
 	}
@@ -144,7 +152,7 @@ class system extends JFrame
 		if(n==JOptionPane.YES_OPTION){RegisterGUI();}
 		if(n==JOptionPane.NO_OPTION){
 			String username = JOptionPane.showInputDialog(Frame1,"Enter Username :");
-			String password = JOptionPane.showInputDialog(Frame1,"Enter Password :");
+			String password = JOptionPane.showInputDialog(Frame1,"Eneter Password :");
 			if(username.equals(admin.getUserName())&&password.equals(admin.getPassword()))
 			{admin.adminGUI();}
 			else
@@ -154,6 +162,8 @@ class system extends JFrame
 	public void RegisterGUI(){
 		JLabel jlabel[] = new JLabel[7];
 		JTextField txt[] = new JTextField[7];
+		panel.removeAll();
+		panel.revalidate();
 		String labelname[] = {"Enter Name :","Enter Date Of Birth(DD/MM/YYYY) :","Enter Address :","Enter User Type(supervisor/staff) :","Enter Department :","Enter Username :","Enter Password :"};
 		for(int i=0;i<7;i++)
 		{
@@ -182,7 +192,6 @@ class system extends JFrame
 		system s = new system();
 		s.noUsers=0;
 		s.readFileUsers();
-		System.out.println(s.noUsers);
 		s.mainGUI();
 	}
 
