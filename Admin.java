@@ -65,9 +65,10 @@ public class Admin extends User{
  //GUI For admin
    public void adminGUI()
 	{
+	   mpanel.removeAll();
+	   mpanel.revalidate();
 	   	mpanel.setLayout(new BoxLayout(mpanel,BoxLayout.Y_AXIS));
 	   	mpanel.add(panel);
-	   	//mpanel.setBackground(Color.blue);
 	   	String ddate = new SimpleDateFormat("yyyy.MM.dd").format(new java.util.Date());
 	 	String ttime = new SimpleDateFormat("HH.mm.ss").format(new java.util.Date());
 	 	TextField date = new TextField(ddate);
@@ -109,7 +110,6 @@ public class Admin extends User{
 					jlabel[i]= new JLabel();
 					rpanel.add(jlabel[i]);
 				}
-				//rpanel.setBackground(Color.pink);
 				rpanel.add(kpanel);
 				
 				mpanel.add(rpanel);
@@ -149,18 +149,25 @@ public class Admin extends User{
 				{if(buttons[i].getText()=="Staff")buttons[i].setBackground(Color.pink);
 				else buttons[i].setBackground(null);}
 				buttons[5].setBackground(Color.white);
-				rpanel.removeAll();rpanel.revalidate();kpanel.removeAll();
+				rpanel.removeAll();
+				rpanel.revalidate();kpanel.removeAll();
 				kpanel.revalidate();
 				rpanel.setLayout(new BoxLayout(rpanel,BoxLayout.Y_AXIS));
 				for(int i=0;i<5;i++)
 				{
-					//generateTask();
+					JPanel lpanel = new JPanel();JButton a = new JButton("Delete");
+					JButton v = new JButton("View");
+					JLabel t = new JLabel("Will you dance ?");v.addActionListener(new Event());
+					lpanel.add(t);a.setBackground(Color.green);
+					lpanel.add(a);a.setActionCommand("delete");v.setBackground(Color.CYAN);
+					a.addActionListener(new Event());
+					lpanel.add(v);v.setActionCommand("view");
+					rpanel.add(lpanel);
 				}
-				rpanel.add(kpanel);
 				mpanel.add(rpanel);
 				frame.setVisible(true);
-				
-			}
+			
+				 }
 			if(e.getActionCommand().equals("Requests")){
 				b1.setActionCommand("Member Requests");
 				b2.setActionCommand("Leave Requests");
@@ -197,7 +204,6 @@ public class Admin extends User{
 				for(int i=0;i<1;i++)
 				{
 					depts[i]=new JButton("huhu");
-					//depts[i].setActionCommand(dname[i]);
 					kpanel.add(depts[i]);
 				}
 				rpanel.add(kpanel);
@@ -222,12 +228,9 @@ public class Admin extends User{
 				b3.setBackground(null);
 				mrpanel.removeAll();
 				mrpanel.revalidate();
-				kpanel.removeAll();
-				kpanel.revalidate();
+				
 				mrpanel.setLayout(new BoxLayout(mrpanel,BoxLayout.Y_AXIS));
 								system s=new system();
-				
-				//System.out.println("here" + s.getRequests().size());
 				int i,f;
 				ArrayList<String> arr = new ArrayList<String>(); 
 				ArrayList<String> info= new ArrayList<String>();
@@ -242,69 +245,55 @@ public class Admin extends User{
 				System.out.println(arr.size());
 				 for( i=0;i<arr.size();i++)
 				 {
-					// System.out.println(s.getRequests().get(i).getApproved());
-					// if(s.getRequests().get(i).getApproved()==1)
-					// {
-					
 					JPanel lpanel = new JPanel();JButton a = new JButton("Approve");
 					JButton r = new JButton("Reject");JButton v = new JButton("view");
-					
+					//********************VIEW******************//
 					String y=arr.get(i); JLabel t = new JLabel(y);
-					// v.addActionListener(new Event());
-					// if(e.getActionCommand()=="view"){
-					// JOptionPane.showMessageDialog(frame,info.get(i));
-					// }
 					String str= info.get(i);
 					v.addActionListener(new ActionListener()
 					{
 						public void actionPerformed(ActionEvent e)
 						{
-							// JDialog d = new JDialog(frame,str, true);
-							// d.setLocationRelativeTo(frame); d.setVisible(true);
-							JOptionPane.showMessageDialog(null, str);
+							String[] line = str.split(",",-1);
+							JFrame ta= new JFrame(line[0]);
+							JPanel pa = new JPanel();
+							pa.setLayout(new BoxLayout(pa,BoxLayout.Y_AXIS));
+							JLabel[] la = new JLabel[8];
+							for(int i=0;i<6;i++)
+								la[i]= new JLabel();
+							la[0].setText("Username :  " + line[0]);//
+							la[1].setText("Name :  " + line[1]);
+							la[2].setText("Address :  " + line[2]);
+							la[3].setText("UserType :  " + line[3]);
+							la[4].setText("Department :  " +line[4]);
+							la[5].setText("DOB :  " + line[5]);
+							for(int i=0;i<6;i++)
+								pa.add(la[i]);
+							ta.add(pa);
+							ta.setSize(400,200);
+							ta.setVisible(true);
 						}
 					});	
-					//f=0;		
+					//*******************APPROVAL****************************************		
 					int chu= index.get(i);
 					a.addActionListener(new ActionListener()
 					{
 						public void actionPerformed(ActionEvent e)
 						{
-							// JDialog d = new JDialog(frame,str, true);
-							// d.setLocationRelativeTo(frame); d.setVisible(true);
 							JOptionPane.showMessageDialog(null, "Approved");
-							//mrpanel.remove(lpanel);// f=1;
 							t.setText(y+ " approved.");
 							System.out.println(t.getText());
-							// remove(a); remove(v); remove(r);
-							//a.setText(""); v.setText(""); r.setText("");
 							a.setVisible(false); r.setVisible(false); v.setVisible(false);
 							s.setUserStatus(chu);
-							//set status to 1 in file and users array.
-							//f(i,s);
-						//	status.set(i,1);
+							
 						}
-					});
-					System.out.println("hereeee");	
-					System.out.println(t.getText());
-					
-					// if(t.getText().equals(y+ " approved."))
-					// {
-						// //write 1 to file.
-						// //userno=?
-						// System.out.println("here");
-						// s.setUserStatus(13);
-					// }
-					//System.out.println(t.getText(y));
-					//if(! (t.getText().equals("Approved"))){
+					});					
 						
 					lpanel.add(t);a.setBackground(Color.green);r.setBackground(Color.red);
 					lpanel.add(a);a.setActionCommand("approve");v.setBackground(Color.CYAN);
 					lpanel.add(r);r.setActionCommand("reject");
 					lpanel.add(v);v.setActionCommand("view");
 					mrpanel.add(lpanel);
-					//}
-					// }
 				 }
 				rpanel.add(mrpanel);
 				frame.setVisible(true);
@@ -352,15 +341,7 @@ public class Admin extends User{
 				rpanel.add(mrpanel);
 				frame.setVisible(true);
 			}
-			if(e.getActionCommand()=="approve"){
-				
-				}
-			if(e.getActionCommand()=="reject"){
-				
-				}
-			if(e.getActionCommand()=="view"){
-				
-			}
+			
 			
 		}
 		
