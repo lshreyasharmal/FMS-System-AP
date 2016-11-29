@@ -1,3 +1,4 @@
+//@author:Shreya Sharma(2015096) Ishmeet Kaur(2015042)
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
@@ -166,7 +167,7 @@ class system extends JFrame
 	
 	public String getInfo(int i)
 	{
-		return "Username:" + users.get(i).getUserName() + " Password: " + users.get(i).getPassword()+ " Name: " + users.get(i).getName() + " Address: " + users.get(i).getAddress() + " Type: " + users.get(i).getUserType() + " Department: " + users.get(i).getDepartment() + " DOB: " + users.get(i).getDOB();
+		return users.get(i).getUserName() + "," + users.get(i).getPassword()+ "," + users.get(i).getName() + "," + users.get(i).getAddress() + "," + users.get(i).getUserType() + "," + users.get(i).getDepartment() + "," + users.get(i).getDOB();
 	}
 	
 	public String getName(int i)
