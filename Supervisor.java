@@ -24,13 +24,13 @@ public class Supervisor extends User {
 	   	mpanel.add(panel);
 		frame.setSize(900,500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.add(panel);
+		
 		String ddate = new SimpleDateFormat("yyyy.MM.dd").format(new java.util.Date());
 	 	String ttime = new SimpleDateFormat("HH.mm.ss").format(new java.util.Date());
 	 	TextField date = new TextField(ddate);
 	   	TextField time = new TextField(ttime);
 		panel.setVisible(true);
-		frame.setVisible(true);
+		
 		Event e = new Event();
 		for(int i=0;i<6;i++){
 			buttons[i] =new JButton(name[i]);
@@ -42,7 +42,7 @@ public class Supervisor extends User {
 		panel.add(date);panel.add(time);
 		date.setColumns(10);time.setColumns(8);
 		date.setEditable(false);time.setEditable(false);
-		
+		//frame.add(panel);
 		frame.add(mpanel);
 		frame.setVisible(true);
 	}
@@ -58,6 +58,24 @@ public class Supervisor extends User {
 				kpanel.revalidate();
 				rpanel.removeAll();
 				rpanel.revalidate();
+				rpanel.setLayout(new BoxLayout(rpanel,BoxLayout.Y_AXIS));
+				JLabel[] jlabel = new JLabel[6];
+				for(int i=0;i<6;i++)
+				{
+					jlabel[i]= new JLabel();
+					rpanel.add(jlabel[i]);
+				}
+				//rpanel.setBackground(Color.pink);
+				rpanel.add(kpanel);
+				
+				mpanel.add(rpanel);
+				jlabel[0].setText("Name : "+ getName());
+				jlabel[1].setText("Username : "+ getUserName());
+				jlabel[2].setText("Address : "+ getAddress());
+				jlabel[3].setText("Department : "+ getDepartment());
+				jlabel[4].setText("Date of Birth : "+ getDOB());
+				jlabel[5].setText("User ID : "+ getUserID());
+				frame.setVisible(true);
 			}
 			if(e.getActionCommand().equals("Send Leave")){
 				for(int i=0;i<6;i++)
@@ -67,15 +85,20 @@ public class Supervisor extends User {
 				JFrame Frame1 = new JFrame("Leave Form");
 				JLabel jlabel[] = new JLabel[4];
 				JTextField txt[] = new JTextField[4];
-				
+				leavepanel.removeAll();
+				leavepanel.revalidate();
 				Frame1.add(leavepanel);
-				leavepanel.setLayout(new FlowLayout(10)); leavepanel.setVisible(true); Frame1.setSize(300,300);
+				leavepanel.setLayout(new BoxLayout(leavepanel,BoxLayout.Y_AXIS)); leavepanel.setVisible(true); Frame1.setSize(300,500);
 				String labelname[] = {"To Whom:","Reason","Frome (DD/MM/YYYY)","To (DD/MM/YYYY)"};
 				for(int i=0;i<4;i++)
 				{
 					jlabel[i] = new JLabel(labelname[i]);
-					txt[i]=new JTextField(""); 
-					txt[i].setColumns(25);
+					if(i==0)
+						{txt[i]=new JTextField("Admin");
+						txt[i].setEditable(false);}
+					else
+						{txt[i]=new JTextField(""); 
+						txt[i].setColumns(25);}
 					leavepanel.add(jlabel[i]);leavepanel.add(txt[i]);
 				}
 				JButton b= new JButton(); 
