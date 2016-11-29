@@ -3,12 +3,12 @@ import java.awt.FlowLayout;
 import java.awt.TextField;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
-import java.io.*;
-import java.util.*;
+
 import javax.swing.*;
 
 
 public class Admin extends User{
+	
 	
 	JFrame frame = new JFrame("FMS System : Admin");
 	/****Button Panel************/
@@ -25,7 +25,7 @@ public class Admin extends User{
 
    //constructor--private so that this class cannot be instantiated
    Admin()
-	{super("Admin",0,"admin","Riddhi Jain","IIIT Delhi","Admin","Admin","31/01/1990",1);}
+	{super("Admin",0,"admin","Riddhi Jain","IIIT Delhi","Admin","Admin","31/01/1990");}
 
    //Get the only object available
    public static Admin getInstance(){
@@ -67,6 +67,8 @@ public class Admin extends User{
 				{if(buttons[i].getText()!="Home")buttons[i].setBackground(null);
 				else buttons[i].setBackground(Color.PINK);}
 				buttons[5].setBackground(Color.white);
+				kpanel.removeAll();
+				kpanel.revalidate();
 				rpanel.removeAll();
 				rpanel.revalidate();
 				
@@ -76,12 +78,8 @@ public class Admin extends User{
 				{if(buttons[i].getText().equals("Departments"))buttons[i].setBackground(Color.pink);
 				else buttons[i].setBackground(null);}
 				buttons[5].setBackground(Color.white);
-				mrpanel.removeAll();
-				mrpanel.revalidate();
-				rpanel.revalidate();
-				kpanel.removeAll();
+				rpanel.removeAll();rpanel.revalidate();kpanel.removeAll();
 				kpanel.revalidate();
-				rpanel.removeAll();rpanel.revalidate();
 				rpanel.setLayout(new BoxLayout(rpanel,BoxLayout.Y_AXIS));
 				for(int i=0;i<5;i++)
 				{
@@ -91,6 +89,7 @@ public class Admin extends User{
 				}
 				rpanel.add(kpanel);
 				mpanel.add(rpanel);
+				
 				frame.setVisible(true);
 				
 				
@@ -101,12 +100,8 @@ public class Admin extends User{
 				{if(buttons[i].getText()=="Staff")buttons[i].setBackground(Color.pink);
 				else buttons[i].setBackground(null);}
 				buttons[5].setBackground(Color.white);
-				mrpanel.removeAll();
-				mrpanel.revalidate();
-				rpanel.revalidate();
-				kpanel.removeAll();
+				rpanel.removeAll();rpanel.revalidate();kpanel.removeAll();
 				kpanel.revalidate();
-				rpanel.removeAll();rpanel.revalidate();
 				rpanel.setLayout(new BoxLayout(rpanel,BoxLayout.Y_AXIS));
 				for(int i=0;i<5;i++)
 				{
@@ -129,10 +124,9 @@ public class Admin extends User{
 				b2.setBackground(null);
 				b1.setBackground(null);
 				b3.setBackground(null);
-				mrpanel.removeAll();
-				mrpanel.revalidate();
-				kpanel.removeAll();rpanel.removeAll();
-				kpanel.revalidate();rpanel.revalidate();
+				rpanel.removeAll();
+				rpanel.revalidate();kpanel.removeAll();
+				kpanel.revalidate();
 				rpanel.setLayout(new BoxLayout(rpanel,BoxLayout.Y_AXIS));
 				kpanel.add(b1);kpanel.add(b2);kpanel.add(b3);
 				for(int i=0;i<5;i++)
@@ -149,13 +143,9 @@ public class Admin extends User{
 				{if(buttons[i].getText().equals("Reports"))buttons[i].setBackground(Color.pink);
 				else buttons[i].setBackground(null);}
 				buttons[5].setBackground(Color.white);
-				mrpanel.removeAll();
-				mrpanel.revalidate();
-				rpanel.revalidate();
-				kpanel.removeAll();
-				kpanel.revalidate();
 				rpanel.removeAll();
-				rpanel.revalidate();
+				rpanel.revalidate();kpanel.removeAll();
+				kpanel.revalidate();
 				rpanel.setLayout(new BoxLayout(rpanel,BoxLayout.Y_AXIS));
 				for(int i=0;i<1;i++)
 				{
@@ -173,10 +163,10 @@ public class Admin extends User{
 				panel.removeAll();
 				frame.remove(panel);
 				frame.dispose();
-				system s= new system();
-				s.noUsers=0;
-				s.readFileUsers();
-				s.mainGUI();
+				system S = new system();
+				S.noUsers=0;
+				S.readFileUsers();
+				S.mainGUI();
 				buttons[5].setBackground(Color.white);
 			}
 			if(e.getActionCommand().equals("Member Requests")){
@@ -185,35 +175,20 @@ public class Admin extends User{
 				b3.setBackground(null);
 				mrpanel.removeAll();
 				mrpanel.revalidate();
+				kpanel.removeAll();
+				kpanel.revalidate();
 				mrpanel.setLayout(new BoxLayout(mrpanel,BoxLayout.Y_AXIS));
-				//System.out.println("sup"+ s.getSize());
-				system s=new system();
-				
-				//System.out.println("here" + s.getRequests().size());
-				int i;
-				ArrayList<String> arr = new ArrayList<String>(); 
-				int x=s.getRequests().size();
-				for( i=0;i<x;i++)
+				for(int i=0;i<6;i++)
 				{
-					System.out.println(i);
-					if(s.getReq(i)==-1) arr.add(s.getName(i));
-				}
-				System.out.println(arr.size());
-				 for( i=0;i<arr.size();i++)
-				 {
-					// System.out.println(s.getRequests().get(i).getApproved());
-					// if(s.getRequests().get(i).getApproved()==1)
-					// {
 					JPanel lpanel = new JPanel();JButton a = new JButton("Approve");
 					JButton r = new JButton("Reject");JButton v = new JButton("view");
-					JLabel t = new JLabel(arr.get(i));
+					JLabel t = new JLabel("please have sex with me?");
 					lpanel.add(t);a.setBackground(Color.green);r.setBackground(Color.red);
 					lpanel.add(a);a.setActionCommand("approve");v.setBackground(Color.CYAN);
 					lpanel.add(r);r.setActionCommand("reject");
 					lpanel.add(v);v.setActionCommand("view");
 					mrpanel.add(lpanel);
-					// }
-				 }
+				}
 				rpanel.add(mrpanel);
 				frame.setVisible(true);
 			}
@@ -228,11 +203,11 @@ public class Admin extends User{
 				{
 					JPanel lpanel = new JPanel();JButton a = new JButton("Approve");
 					JButton r = new JButton("Reject");JButton v = new JButton("view");
-					JLabel t = new JLabel("Will you dance ?");
+					JLabel t = new JLabel("Will you dance ?");v.addActionListener(new Event());
 					lpanel.add(t);a.setBackground(Color.green);r.setBackground(Color.red);
 					lpanel.add(a);a.setActionCommand("approve");v.setBackground(Color.CYAN);
-					lpanel.add(r);r.setActionCommand("reject");
-					lpanel.add(v);v.setActionCommand("view");
+					lpanel.add(r);r.setActionCommand("reject");a.addActionListener(new Event());
+					lpanel.add(v);v.setActionCommand("view");r.addActionListener(new Event());
 					mrpanel.add(lpanel);
 				}
 				rpanel.add(mrpanel);

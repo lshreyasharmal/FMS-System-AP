@@ -1,13 +1,13 @@
-1,Ishmeet,20/02/1998,Island,supervisor,housekeeping,hsuper,hpass
-2,Abhishek,28/04/1996,Ludhiana,supervisor,electricity,esuper,epass
-3,Guneet,30/01/1996,vikas puri,supervisor,security,ssuper,spass
-4,Gullal,30/01/1990,chandigarh,supervisor,audiovideo,avsuper,avpass
-5,Prateek,24/10/1995,delhi,supervisor,hvac,hvacsuper,hvacpass
-6,name1,01/01/1990,delhi,staff,housekeeping,user1,pass1
-7,name2,02/01/1990,delhi,staff,electricity,user2,pass2
-8,name3,03/01/1990,delhi,staff,security,user3,pass3
-9,name4,04/01/1990,delhi,staff,audiovideo,user4,pass4
-10,name5,05/01/1990,delhi,staff,hvac,user5,pass5
-11,name6,06/01/1990,delhi,staff,housekeeping,user6,pass6
-12,name7,07/01/1990,delhi,staff,electricity,user7,pass7
-13,name8,08/01/1990,delhi,staff,security,user8,pass8
+1,Ishmeet,20/02/1998,Island,supervisor,Housekeeping,hsuper,hpass
+2,Abhishek,28/04/1996,Ludhiana,supervisor,Electricity,esuper,epass
+3,Guneet,30/01/1996,vikas puri,supervisor,Security,ssuper,spass
+4,Gullal,30/01/1990,chandigarh,supervisor,Audio/Video,avsuper,avpass
+5,Prateek,24/10/1995,delhi,supervisor,HVAC,hvacsuper,hvacpass
+6,name1,01/01/1990,delhi,staff,Housekeeping,user1,pass1
+7,name2,02/01/1990,delhi,staff,Electricity,user2,pass2
+8,name3,03/01/1990,delhi,staff,Security,user3,pass3
+9,name4,04/01/1990,delhi,staff,Audio/Video,user4,pass4
+10,name5,05/01/1990,delhi,staff,HVAC,user5,pass5
+11,name6,06/01/1990,delhi,staff,Housekeeping,user6,pass6
+12,name7,07/01/1990,delhi,staff,Electricity,user7,pass7
+13,name8,08/01/1990,delhi,staff,Security,user8,pass8

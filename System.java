@@ -83,6 +83,14 @@ class system extends JFrame
 		}
 		else if(s1.equals("")||s2.equals("")||s3.equals("")||s4.equals("")||s5.equals("")||s6.equals("")||s7.equals("")){
 			JOptionPane.showMessageDialog(null, "Empty Fields ", "Error", JOptionPane.ERROR_MESSAGE);
+			
+		}
+		else if(s6.equals("supervisor")==false&&s6.equals("staff")==false){
+			JOptionPane.showMessageDialog(null, " Invalid User Type ", "Error", JOptionPane.ERROR_MESSAGE);
+			RegisterGUI();
+		}
+		else if(s7.equals("Houskeeping")==false&&s7.equals("Electricity")==false&&s7.equals("Security")==false&&s7.equals("Audio/Video")==false&&s7.equals("HVAC")==false){
+			JOptionPane.showMessageDialog(null, " Invalid Department, Can only be HVAC, Audio/Video, Electricity, Housekeeping or Security ", "Error", JOptionPane.ERROR_MESSAGE);
 			RegisterGUI();
 		}
 		else{
@@ -131,8 +139,10 @@ class system extends JFrame
 	public void RegisterGUI(){
 		JLabel jlabel[] = new JLabel[7];
 		JTextField txt[] = new JTextField[7];
+		panel.removeAll();
+		panel.revalidate();
 		String labelname[] = {"Enter Name :","Enter Date Of Birth(DD/MM/YYYY) :","Enter Address :","Enter User Type(supervisor/staff) :","Enter Department :","Enter Username :","Enter Password :"};
-		for(int i=0;i<8;i++)
+		for(int i=0;i<7;i++)
 		{
 			jlabel[i] = new JLabel(labelname[i]);
 			txt[i]=new JTextField(""); txt[i].setColumns(20);
@@ -144,13 +154,13 @@ class system extends JFrame
 		panel.setLayout(new FlowLayout(10)); panel.setVisible(true); Frame1.setSize(300,400);
 		 b.addActionListener( new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-		String name= txt[1].getText();
-		String dob= txt[2].getText();
-		String add= txt[3].getText();
-		String type= txt[4].getText();
-		String dept= txt[5].getText();
-		String username= txt[6].getText();
-		String password= txt[7].getText();
+		String name= txt[0].getText();
+		String dob= txt[1].getText();
+		String add= txt[2].getText();
+		String type= txt[3].getText();
+		String dept= txt[4].getText();
+		String username= txt[5].getText();
+		String password= txt[6].getText();
 		Register(username,password,name,dob,add,type,dept);}} );
 		 Frame1.setVisible(true);
 	}

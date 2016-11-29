@@ -1,28 +1,42 @@
 import java.util.Date;
 
+import javax.swing.*;
+//Task Report – ID, Task ID, Task Name, Task Description, Items used, Time Taken,
+//Comments.
 public class Task {
 	private Date Deadline, StartDate;
-	private String TaskStatus,TaskID,TaskDept;
-	
+	private String TaskID,TaskDept,TaskName;
+	public enum TaskStatus { COMPLETE,  NOT_STARTED, ONGOING } ;
+	Task(Date Deadline,Date StartDate,String TaskID, String TaskDept,String TaskName){
+		this.Deadline=Deadline;
+		this.StartDate=StartDate;
+		this.TaskID=TaskID;
+		this.TaskDept=TaskDept;
+		this.TaskName=TaskName;
+	}
+	public void setTaskName(String Name)
+	{
+		this.TaskName=Name;
+	}
 	public void setDeadline(Date date)
 	{
-		Deadline=date;
+		this.Deadline=date;
 	}
 	public void setStartDate(Date date)
 	{
-		StartDate=date;
-	}
-	public void setTaskStatus(String t)
-	{
-		TaskStatus = t;
+		this.StartDate=date;
 	}
 	public void setTaskID(String t)
 	{
-		TaskID=t;
+		this.TaskID=t;
 	}
 	public void setTaskDept(String t)
 	{
-		TaskDept=t;
+		this.TaskDept=t;
+	}
+	public String getTaskName()
+	{
+		return TaskName;
 	}
 	public Date getDeadline()
 	{
@@ -32,10 +46,6 @@ public class Task {
 	{
 		return StartDate;
 	}
-	public String getTaskStatus()
-	{
-		return TaskStatus;
-	}
 	public String getTaskID()
 	{
 		return TaskID;
@@ -44,8 +54,6 @@ public class Task {
 	{
 		return TaskDept;
 	}
-	public void getReport()
-	{
-		
-	}
-}
+	
+}//Task Report – ID, Task ID, Task Name, Task Description, Items used, Time Taken,
+//Comments.
