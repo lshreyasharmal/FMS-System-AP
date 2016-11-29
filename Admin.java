@@ -3,12 +3,12 @@ import java.awt.FlowLayout;
 import java.awt.TextField;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
-
+import java.io.*;
+import java.util.*;
 import javax.swing.*;
 
 
 public class Admin extends User{
-	
 	
 	JFrame frame = new JFrame("FMS System : Admin");
 	/****Button Panel************/
@@ -25,7 +25,7 @@ public class Admin extends User{
 
    //constructor--private so that this class cannot be instantiated
    Admin()
-	{super("Admin",0,"admin","Riddhi Jain","IIIT Delhi","Admin","Admin","31/01/1990");}
+	{super("Admin",0,"admin","Riddhi Jain","IIIT Delhi","Admin","Admin","31/01/1990",1);}
 
    //Get the only object available
    public static Admin getInstance(){
@@ -173,10 +173,10 @@ public class Admin extends User{
 				panel.removeAll();
 				frame.remove(panel);
 				frame.dispose();
-				system S = new system();
-				S.noUsers=0;
-				S.readFileUsers();
-				S.mainGUI();
+				system s= new system();
+				s.noUsers=0;
+				s.readFileUsers();
+				s.mainGUI();
 				buttons[5].setBackground(Color.white);
 			}
 			if(e.getActionCommand().equals("Member Requests")){
@@ -186,17 +186,34 @@ public class Admin extends User{
 				mrpanel.removeAll();
 				mrpanel.revalidate();
 				mrpanel.setLayout(new BoxLayout(mrpanel,BoxLayout.Y_AXIS));
-				for(int i=0;i<6;i++)
+				//System.out.println("sup"+ s.getSize());
+				system s=new system();
+				
+				//System.out.println("here" + s.getRequests().size());
+				int i;
+				ArrayList<String> arr = new ArrayList<String>(); 
+				int x=s.getRequests().size();
+				for( i=0;i<x;i++)
 				{
+					System.out.println(i);
+					if(s.getReq(i)==-1) arr.add(s.getName(i));
+				}
+				System.out.println(arr.size());
+				 for( i=0;i<arr.size();i++)
+				 {
+					// System.out.println(s.getRequests().get(i).getApproved());
+					// if(s.getRequests().get(i).getApproved()==1)
+					// {
 					JPanel lpanel = new JPanel();JButton a = new JButton("Approve");
 					JButton r = new JButton("Reject");JButton v = new JButton("view");
-					JLabel t = new JLabel("please have sex with me?");
+					JLabel t = new JLabel(arr.get(i));
 					lpanel.add(t);a.setBackground(Color.green);r.setBackground(Color.red);
 					lpanel.add(a);a.setActionCommand("approve");v.setBackground(Color.CYAN);
 					lpanel.add(r);r.setActionCommand("reject");
 					lpanel.add(v);v.setActionCommand("view");
 					mrpanel.add(lpanel);
-				}
+					// }
+				 }
 				rpanel.add(mrpanel);
 				frame.setVisible(true);
 			}
