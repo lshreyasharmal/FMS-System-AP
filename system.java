@@ -75,12 +75,41 @@ class system extends JFrame
     }    
     }
 	
-		public void setUserStatus(int x)
+	public void setUserStatus(int x)
 	{
 		users.get(x).setApproved(1);
+		//update in file as well.
+		System.out.println(users.get(x).getApproved());
+		try
+		{
+		FileWriter fr= new FileWriter("users.txt");
+		BufferedWriter br= new BufferedWriter(fr);
+		PrintWriter out= new PrintWriter(br);
+		for(int i=0;i<users.size();i++)
+		{
+			User mmm=users.get(i);
+			//System.out.println(mmm.getTitle());
+			System.out.println(mmm.getApproved());
+			out.write(mmm.getUserID() +",");
+			out.write(mmm.getName()+",");
+			out.write(mmm.getDOB()+",");
+			out.write(mmm.getAddress()+",");
+			out.write(mmm.getUserType()+",");
+			out.write(mmm.getDepartment()+",");
+			out.write(mmm.getUserName()+",");
+			out.write(mmm.getPassword()+",");
+			System.out.println(mmm.getApproved());
+			out.write(Integer.toString(mmm.getApproved()));
+			out.write("\n");
+		}
+		out.close();
+		}
+		catch(Exception e)
+		{e.printStackTrace();}
 	}
 	
 	public ArrayList<User> getRequests() {readFileUsers();return users;}
+	
 	
 	public void Register(String s1,String s2,String s3,String s4,String s5, String s6, String s7){
 		
@@ -118,7 +147,7 @@ class system extends JFrame
 			out.write(s6 +",");
 			out.write(s7 +",");
 			out.write(s1 +",");
-			out.write(s2+ ",-1");
+			out.write(s2+",-1");
 			out.write("\n");
 		out.close();
 		Frame1.remove(panel);
@@ -129,8 +158,8 @@ class system extends JFrame
 		catch(Exception e)
 		{e.printStackTrace();}}
 	}
-	
-		public int getReq(int i)
+
+	public int getReq(int i)
 	{
 		return users.get(i).getApproved();
 	}
@@ -193,6 +222,7 @@ class system extends JFrame
 		s.noUsers=0;
 		s.readFileUsers();
 		s.mainGUI();
+
 	}
 
 	

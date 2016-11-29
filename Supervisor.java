@@ -14,9 +14,9 @@ public class Supervisor extends User {
 	String name[] = {"Home","Send Leave","Staff","Requests","Reports","Logout"};
 	String dname[] = {"Electricity","HVAC","Audio/Video","Security","Housekeeping"};
 	JButton b1 = new JButton("Member Requests"); JButton b2 = new JButton("Leave Requests"); JButton b3 = new JButton("Logistics Requests");
-	Supervisor(String UserName,int UserID, String Password, String name, String address, String userType,String department, String dob)
+	Supervisor(String UserName,int UserID, String Password, String name, String address, String userType,String department, String dob, int status)
 	{
-		super(UserName,UserID,Password,name,address,userType,department,dob);
+		super(UserName,UserID,Password,name,address,userType,department,dob,status);
 	}
 	public void supGUI()
 	{

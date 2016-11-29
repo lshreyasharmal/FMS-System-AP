@@ -6,7 +6,7 @@ class User extends JFrame
 	protected String UserName,Password,name,address,userType,department,dob;
 	protected int UserID,noUsers,approved;
 	ArrayList<User> users= new ArrayList<User>();
-	User(String UserName,int UserID, String Password, String name, String address, String userType,String department, String dob)
+	User(String UserName,int UserID, String Password, String name, String address, String userType,String department, String dob, int approved)
 	{
 		this.UserID=UserID;
 		this.UserName=UserName;
@@ -16,6 +16,7 @@ class User extends JFrame
 		this.userType=userType;
 		this.department=department;
 		this.dob=dob;
+		this.approved=approved;
 	}
 	
 	public void login()
@@ -108,6 +109,7 @@ class User extends JFrame
 		this.dob=s;
 	}
 	
-	
+	public int getApproved(){return approved; }
+	public void setApproved( int x) {this.approved=x;}
 
 }

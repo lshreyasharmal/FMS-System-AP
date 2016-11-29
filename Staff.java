@@ -16,9 +16,9 @@ public class Staff extends User{
 	String name[] = {"Home","Send Leave","Staff","Requests","Reports","Logout"};
 	ArrayList<Task> task= new ArrayList<Task>();
 	int noTask;
-	Staff(String UserName,int UserID, String Password, String name, String address, String userType,String department, String dob)
+	Staff(String UserName,int UserID, String Password, String name, String address, String userType,String department, String dob, int status)
 	{
-		super(UserName,UserID,Password,name,address,userType,department,dob);
+		super(UserName,UserID,Password,name,address,userType,department,dob,status);
 	}
 	public void readFileTasks()
     {
