@@ -1,5 +1,6 @@
+//@author:Shreya Sharma(2015096) Ishmeet Kaur(2015042)
 import javax.swing.*;
-
+import java.io.*;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -7,16 +8,30 @@ import java.text.SimpleDateFormat;
 
 public class Supervisor extends User {
 	JFrame frame = new JFrame("FMS System : Supervisor "+this.getDepartment());
+	String nameleave= this.getUserName();
+	String namee= this.getDepartment()+ " Supervisor";
+	String dept=this.getDepartment();
 	JPanel mpanel = new JPanel();JPanel kpanel = new JPanel();JPanel mrpanel = new JPanel();
 	JPanel rpanel = new JPanel();JPanel leavepanel = new JPanel();
 	JPanel panel = new JPanel(new FlowLayout());
 	JButton buttons[] = new JButton[6];
+	ArrayList<Leave> leave= new ArrayList<Leave>();
 	String name[] = {"Home","Send Leave","Staff","Requests","Reports","Logout"};
 	String dname[] = {"Electricity","HVAC","Audio/Video","Security","Housekeeping"};
 	JButton b1 = new JButton("Member Requests"); JButton b2 = new JButton("Leave Requests"); JButton b3 = new JButton("Logistics Requests");
 	Supervisor(String UserName,int UserID, String Password, String name, String address, String userType,String department, String dob, int status)
 	{
 		super(UserName,UserID,Password,name,address,userType,department,dob,status);
+	}
+	
+	public String getNames(int i)
+	{
+		return leave.get(i).getWhose();
+	}
+	
+	public int getSizeLeave()
+	{
+		return leave.size();
 	}
 	public void supGUI()
 	{
@@ -78,6 +93,8 @@ public class Supervisor extends User {
 				frame.setVisible(true);
 			}
 			if(e.getActionCommand().equals("Send Leave")){
+				
+				
 				for(int i=0;i<6;i++)
 				{if(buttons[i].getText()!="Send Leave")buttons[i].setBackground(null);
 				else buttons[i].setBackground(Color.PINK);}
@@ -103,6 +120,9 @@ public class Supervisor extends User {
 				}
 				JButton b= new JButton(); 
 				b.setText("Submit");
+
+
+				//System.out.println(leave.get(0).get_to_whom());
 				leavepanel.add(b);
 				Frame1.add(leavepanel);
 				Frame1.setVisible(true);
@@ -111,6 +131,21 @@ public class Supervisor extends User {
 				b.addActionListener(new ActionListener()
 				{
 					public void actionPerformed(ActionEvent e){
+					// System.out.println(txt[1].getText()+ txt[1].getText().equals(txt[2].getText()));
+		if(!txt[1].getText().equals(txt[2].getText()))	
+		{			Leave mmm = new Leave(txt[0].getText(),txt[1].getText(),txt[2].getText(),txt[3].getText(),-1,nameleave);		leave.add(mmm);
+		try
+		{
+		FileWriter fr= new FileWriter("leave.txt",true);
+		BufferedWriter br= new BufferedWriter(fr);
+		PrintWriter out= new PrintWriter(br);
+		out.write(txt[0].getText()+","+txt[1].getText()+","+txt[2].getText()+","+txt[3].getText()+",-1,"+nameleave);
+		out.write("\n");
+		out.close();
+		}
+		catch(Exception ex)
+		{ex.printStackTrace();}
+		}
 						Frame1.setVisible(false);
 						frame.setVisible(true);
 					}});
@@ -118,21 +153,77 @@ public class Supervisor extends User {
 				
 			}	
 			
-			if(e.getActionCommand().equals("Staff")){
-				for(int i=0;i<6;i++)
-				{if(buttons[i].getText()!="Staff")buttons[i].setBackground(null);
-				else buttons[i].setBackground(Color.PINK);}
+			if(e.getActionCommand()=="Staff"){
 				for(int i=0;i<5;i++)
 				{if(buttons[i].getText()=="Staff")buttons[i].setBackground(Color.pink);
 				else buttons[i].setBackground(null);}
 				buttons[5].setBackground(Color.white);
-				rpanel.removeAll();rpanel.revalidate();kpanel.removeAll();
+				rpanel.removeAll();
+				rpanel.revalidate();kpanel.removeAll();
 				kpanel.revalidate();
 				rpanel.setLayout(new BoxLayout(rpanel,BoxLayout.Y_AXIS));
-				rpanel.add(kpanel);
+				ArrayList<String> names = new ArrayList<String>(); 
+				ArrayList<String> info= new ArrayList<String>();
+				ArrayList<Integer> index= new ArrayList<Integer>();
+				system s= new system();
+				int x=s.getRequests().size(); int i;
+				for( i=0;i<x;i++)
+				{
+					System.out.println(i);
+					if(s.getReq(i)==1 && s.getUserType(i).equals("staff")) {names.add(s.getName(i));info.add(s.getInfo(i)); index.add(i); }
+				}				
+				for( i=0;i<names.size();i++)
+				{
+					JPanel lpanel = new JPanel();JButton a = new JButton("Delete");
+					JButton v = new JButton("View");
+					JLabel t = new JLabel(names.get(i));v.addActionListener(new Event());
+					lpanel.add(t);a.setBackground(Color.red);
+					String str= info.get(i);
+					v.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							String[] line = str.split(",",-1);
+							JFrame ta= new JFrame(line[0]);
+							JPanel pa = new JPanel();
+							pa.setLayout(new BoxLayout(pa,BoxLayout.Y_AXIS));
+							JLabel[] la = new JLabel[8];
+							for(int i=0;i<6;i++)
+								la[i]= new JLabel();
+							la[0].setText("Username :  " + line[0]);//
+							la[1].setText("Name :  " + line[1]);
+							la[2].setText("Address :  " + line[2]);
+							la[3].setText("UserType :  " + line[3]);
+							la[4].setText("Department :  " +line[4]);
+							la[5].setText("DOB :  " + line[5]);
+							for(int i=0;i<6;i++)
+								pa.add(la[i]);
+							ta.add(pa);
+							ta.setSize(400,200);
+							ta.setVisible(true);
+						}
+					});	
+					int chu= index.get(i); String y=names.get(i);
+					a.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							JOptionPane.showMessageDialog(null, "Deleted");
+							t.setText(y+ " deleted.");
+							System.out.println(t.getText());
+							a.setVisible(false); v.setVisible(false);
+							s.removeUser(chu);
+						}
+					});
+					lpanel.add(a);a.setActionCommand("delete");v.setBackground(Color.CYAN);
+					a.addActionListener(new Event());
+					lpanel.add(v);v.setActionCommand("view");
+					rpanel.add(lpanel);
+				}
 				mpanel.add(rpanel);
 				frame.setVisible(true);
-			}
+			
+				 }
 			if(e.getActionCommand().equals("Requests")){
 				for(int i=0;i<6;i++)
 				{if(buttons[i].getText()!="Requests")buttons[i].setBackground(null);
@@ -162,20 +253,45 @@ public class Supervisor extends User {
 				mpanel.add(rpanel);
 				frame.setVisible(true);
 			}			
-			if(e.getActionCommand().equals("Reports")){
-				for(int i=0;i<6;i++)
-				{if(buttons[i].getText()!="Reports")buttons[i].setBackground(null);
-				else buttons[i].setBackground(Color.PINK);}
+			if(e.getActionCommand()=="Reports"){
+				System.out.println("ecygj");
+				for(int i=0;i<5;i++)
+				{if(buttons[i].getText().equals("Reports"))buttons[i].setBackground(Color.pink);
+				else buttons[i].setBackground(null);}
 				buttons[5].setBackground(Color.white);
+				System.out.println("u");
 				rpanel.removeAll();
-				rpanel.revalidate();kpanel.removeAll();
+				rpanel.revalidate();
+				kpanel.removeAll();
 				kpanel.revalidate();
 				rpanel.setLayout(new BoxLayout(rpanel,BoxLayout.Y_AXIS));
-				rpanel.add(kpanel);
+				Staff u = new Staff(null,0,null,null,null,null,null,null,0);
+				ArrayList<String[]> arr = new ArrayList<String[]>();
+				arr=u.readFileDept(dept);
+				System.out.println(arr.size());
+				for(int i=0;i<arr.size();i++)
+					System.out.println(arr.get(i)[0]);
+				for(int i=0;i<arr.size();i++)
+				{
+					System.out.println("ec");
+					JLabel y = new JLabel(arr.get(i)[0]);
+					JButton j = new JButton("View");
+					j.setBackground(Color.cyan);
+					JPanel pan = new JPanel();
+					pan.add(y);pan.add(j);
+					rpanel.add(pan);
+					String[] gt = arr.get(i);
+					j.addActionListener(new ActionListener(){
+						public void actionPerformed(ActionEvent e){
+							//code for view
+							u.getTaskReport(gt);
+						}
+					});
+					
+				}
 				mpanel.add(rpanel);
+			
 				frame.setVisible(true);
-				
-				
 			}
 			if(e.getActionCommand().equals("Logout")){
 				frame.remove(panel);
@@ -194,33 +310,187 @@ public class Supervisor extends User {
 				kpanel.removeAll();
 				kpanel.revalidate();
 				mrpanel.setLayout(new BoxLayout(mrpanel,BoxLayout.Y_AXIS));
-				for(int i=0;i<6;i++)
+								system s=new system();
+				
+				//System.out.println("here" + s.getRequests().size());
+				int i,f;
+				ArrayList<String> arr = new ArrayList<String>(); 
+				ArrayList<String> info= new ArrayList<String>();
+				ArrayList<Integer> index= new ArrayList<>();
+				 ArrayList<Integer> status= new ArrayList<>();
+				int x=s.getRequests().size();
+				for( i=0;i<x;i++)
 				{
+					System.out.println(i);
+					if(s.getReq(i)==-1) {arr.add(s.getName(i)); info.add(s.getInfo(i)); index.add(i); status.add(-1);}
+				}
+				System.out.println(arr.size());
+				 for( i=0;i<arr.size();i++)
+				 {
 					JPanel lpanel = new JPanel();JButton a = new JButton("Approve");
-					JButton r = new JButton("Reject");JButton v = new JButton("view");
-					JLabel t = new JLabel("please have sex with me?");
+					JButton r = new JButton("Reject");JButton v = new JButton("view");	
+					String y=arr.get(i); JLabel t = new JLabel(y);
+					String str= info.get(i);
+					v.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							String[] line = str.split(",",-1);
+							JFrame ta= new JFrame(line[0]);
+							JPanel pa = new JPanel();
+							pa.setLayout(new BoxLayout(pa,BoxLayout.Y_AXIS));
+							JLabel[] la = new JLabel[8];
+							for(int i=0;i<6;i++)
+								la[i]= new JLabel();
+							la[0].setText("Username :  " + line[0]);//
+							la[1].setText("Name :  " + line[1]);
+							la[2].setText("Address :  " + line[2]);
+							la[3].setText("UserType :  " + line[3]);
+							la[4].setText("Department :  " +line[4]);
+							la[5].setText("DOB :  " + line[5]);
+							for(int i=0;i<6;i++)
+								pa.add(la[i]);
+							ta.add(pa);
+							ta.setSize(400,200);
+							ta.setVisible(true);
+						}
+					});			
+					int chu= index.get(i);
+					a.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							JOptionPane.showMessageDialog(null, "Approved");
+							t.setText(y+ " approved.");
+							System.out.println(t.getText());
+							a.setVisible(false); r.setVisible(false); v.setVisible(false);
+							s.setUserStatus(chu);
+						}
+					});
+					
+					r.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							JOptionPane.showMessageDialog(null, "Rejected");
+							t.setText(y+ " rejected.");
+							System.out.println(t.getText());
+							a.setVisible(false); r.setVisible(false); v.setVisible(false);
+							s.removeUser(chu);
+						}
+					});
+										
 					lpanel.add(t);a.setBackground(Color.green);r.setBackground(Color.red);
 					lpanel.add(a);a.setActionCommand("approve");v.setBackground(Color.CYAN);
 					lpanel.add(r);r.setActionCommand("reject");
 					lpanel.add(v);v.setActionCommand("view");
 					mrpanel.add(lpanel);
-				}
+				 }
 				rpanel.add(mrpanel);
 				frame.setVisible(true);
+			
 			}
-			if(e.getActionCommand().equals("Leave Requests")){
+			if(e.getActionCommand()=="Leave Requests"){
 				b2.setBackground(Color.pink);
 				b1.setBackground(null);
 				b3.setBackground(null);
 				mrpanel.removeAll();
 				mrpanel.revalidate();
-				
 				mrpanel.setLayout(new BoxLayout(mrpanel,BoxLayout.Y_AXIS));
-				for(int i=0;i<5;i++)
+				//read leaves from file.
+				ArrayList<Leave> leave= new ArrayList<>();
+				ArrayList<Integer> index= new ArrayList<>(); int it=0;
+	BufferedReader br= null;
+    try
+    {
+    br= new BufferedReader(new FileReader("leave.txt"));
+    String line=null; 
+    while((line=br.readLine())!=null)
+    {
+	Leave mmm= new Leave(null,null,null,null,0,null);
+	String lines[]=line.split(",");
+	String name =lines[0];
+	String dob=lines[1];
+	String addr=lines[2];
+	String type=lines[3];
+	int x =Integer.parseInt(lines[4]);
+	String dept=lines[5];
+	mmm= new Leave(name,dob,addr,type,x,dept);
+	if(x==-1 && namee.equals(name)) {leave.add(mmm); index.add(it); };
+	it++;
+    }
+	//noUsers=users.size();
+    }catch(FileNotFoundException ex) {ex.printStackTrace();}
+    catch(IOException ex) {ex.printStackTrace();}
+    finally
+    {
+    try{if(br!=null) br.close();}
+    catch(IOException ex) {ex.printStackTrace();}
+    } 
+ 
+				for(int i=0;i<leave.size();i++)
 				{
 					JPanel lpanel = new JPanel();JButton a = new JButton("Approve");
 					JButton r = new JButton("Reject");JButton v = new JButton("view");
-					JLabel t = new JLabel("Will you dance ?");v.addActionListener(new Event());
+					JLabel t = new JLabel(leave.get(i).getWhose());v.addActionListener(new Event());
+							String[] line= new String[4];
+							line[0]=leave.get(i).getWhose();
+							line[1]=leave.get(i).getReason();
+							line[2]=leave.get(i).getFrom();
+							line[3]=leave.get(i).getTo();
+					v.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							//String[] line = str.split(",",-1);
+
+							JFrame ta= new JFrame(line[0]);
+							JPanel pa = new JPanel();
+							pa.setLayout(new BoxLayout(pa,BoxLayout.Y_AXIS));
+							JLabel[] la = new JLabel[8];
+							for(int i=0;i<4;i++)
+								la[i]= new JLabel();
+							la[0].setText("Username :  " +line[0] );//
+							la[1].setText("Reason :  " + line[1]);
+							la[2].setText("From :  " +line[2] );
+							la[3].setText("To :  " + line[3]);
+							for(int i=0;i<4;i++)
+								pa.add(la[i]);
+							ta.add(pa);
+							ta.setSize(400,200);
+							ta.setVisible(true);
+						}
+					});			
+					
+					int chu= index.get(i);
+					system s= new system();
+//					Leave l = leave.get(0);
+					a.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							JOptionPane.showMessageDialog(null, "Approved");
+							t.setText(line[0] + "'s leave approved.");
+							System.out.println(t.getText());
+							a.setVisible(false); r.setVisible(false); v.setVisible(false);
+							//set status to 1 in file.
+							s.setUserStatusLeave(chu);
+
+						}
+					});
+					
+					r.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							JOptionPane.showMessageDialog(null, "Rejected");
+							t.setText(line[0] + "'s leave rejected.");
+							System.out.println(t.getText());
+							a.setVisible(false); r.setVisible(false); v.setVisible(false);
+							s.removeUserLeave(chu);
+						}
+					});
+					
 					lpanel.add(t);a.setBackground(Color.green);r.setBackground(Color.red);
 					lpanel.add(a);a.setActionCommand("approve");v.setBackground(Color.CYAN);
 					lpanel.add(r);r.setActionCommand("reject");a.addActionListener(new Event());
@@ -230,6 +500,7 @@ public class Supervisor extends User {
 				rpanel.add(mrpanel);
 				frame.setVisible(true);
 				}
+
 			if(e.getActionCommand().equals("Logistics Request")){
 				b3.setBackground(Color.pink);
 				b1.setBackground(null);
@@ -237,29 +508,110 @@ public class Supervisor extends User {
 				mrpanel.removeAll();
 				mrpanel.revalidate();
 				mrpanel.setLayout(new BoxLayout(mrpanel,BoxLayout.Y_AXIS));
-				for(int i=0;i<3;i++)
+				ArrayList<Logistics> leave= new ArrayList<>();
+				ArrayList<Integer> index= new ArrayList<>(); int it=0;
+	BufferedReader br= null;
+    try
+    {
+    br= new BufferedReader(new FileReader("logistics.txt"));
+    String line=null; 
+    while((line=br.readLine())!=null)
+    {
+	Logistics mmm= new Logistics(null,null,null,0,0,0);
+	String lines[]=line.split(";");
+	String name =lines[0];
+	String dob=lines[1];
+	String addr=lines[2];
+	int x =Integer.parseInt(lines[3]);
+	int y =Integer.parseInt(lines[4]);
+	int z =Integer.parseInt(lines[5]);
+	mmm= new Logistics(name,dob,addr,x,y,z);
+	if(y==-1 && namee.equals(name)) {leave.add(mmm); index.add(it); };
+	it++;
+    }
+	//noUsers=users.size();
+    }catch(FileNotFoundException ex) {ex.printStackTrace();}
+    catch(IOException ex) {ex.printStackTrace();}
+    finally
+    {
+    try{if(br!=null) br.close();}
+    catch(IOException ex) {ex.printStackTrace();}
+    } 
+ 
+				for(int i=0;i<leave.size();i++)
 				{
 					JPanel lpanel = new JPanel();JButton a = new JButton("Approve");
 					JButton r = new JButton("Reject");JButton v = new JButton("view");
-					JLabel t = new JLabel("please lets go out?");
+					JLabel t = new JLabel(leave.get(i).getTask());v.addActionListener(new Event());
+							String[] line= new String[3];
+							line[0]=leave.get(i).getTask();
+							//line[1]=leave.get(i).getID();
+							int hello=leave.get(i).getID();
+							line[2]=leave.get(i).getItems();
+							//line[3]=leave.get(i).getTo();
+					v.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							//String[] line = str.split(",",-1);
+
+							JFrame ta= new JFrame(line[0]);
+							JPanel pa = new JPanel();
+							pa.setLayout(new BoxLayout(pa,BoxLayout.Y_AXIS));
+							JLabel[] la = new JLabel[8];
+							for(int i=0;i<3;i++)
+								la[i]= new JLabel();
+							la[0].setText("Task name :  " +line[0] );//
+							la[1].setText("Request ID :  " + hello);
+							la[2].setText("Items :  " +line[2] );
+							//la[3].setText("To :  " + line[3]);
+							for(int i=0;i<3;i++)
+								pa.add(la[i]);
+							ta.add(pa);
+							ta.setSize(400,200);
+							ta.setVisible(true);
+						}
+					});			
+					
+					int chu= index.get(i);
+					system s= new system();
+//					Leave l = leave.get(0);
+					a.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							JOptionPane.showMessageDialog(null, "Approved");
+							t.setText(line[0] + "'s logistics approved.");
+							System.out.println(t.getText());
+							a.setVisible(false); r.setVisible(false); v.setVisible(false);
+							//set status to 1 in file.
+							s.setUserStatusLog(chu);
+
+						}
+					});
+					
+					r.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							JOptionPane.showMessageDialog(null, "Rejected");
+							t.setText(line[0] + "'s logistics rejected.");
+							System.out.println(t.getText());
+							a.setVisible(false); r.setVisible(false); v.setVisible(false);
+							s.removeUserLog(chu);
+						}
+					});
+					
 					lpanel.add(t);a.setBackground(Color.green);r.setBackground(Color.red);
 					lpanel.add(a);a.setActionCommand("approve");v.setBackground(Color.CYAN);
-					lpanel.add(r);r.setActionCommand("reject");
-					lpanel.add(v);v.setActionCommand("view");
+					lpanel.add(r);r.setActionCommand("reject");a.addActionListener(new Event());
+					lpanel.add(v);v.setActionCommand("view");r.addActionListener(new Event());
 					mrpanel.add(lpanel);
 				}
 				rpanel.add(mrpanel);
 				frame.setVisible(true);
-			}
-			if(e.getActionCommand()=="approve"){
-				
 				}
-			if(e.getActionCommand()=="reject"){
-				
-				}
-			if(e.getActionCommand()=="view"){
-				
-			}
+	
 			
 	}
 }

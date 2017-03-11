@@ -1,11 +1,9 @@
+//@author:Shreya Sharma(2015096) Ishmeet Kaur(2015042)
 import javax.swing.*;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 
 public class Staff extends User{
@@ -13,12 +11,24 @@ public class Staff extends User{
 	JPanel rpanel = new JPanel();JPanel mpanel = new JPanel();
 	JPanel panel = new JPanel(new FlowLayout());
 	JButton buttons[] = new JButton[6];JPanel leavepanel = new JPanel();
-	String name[] = {"Home","Send Leave","Staff","Requests","Reports","Logout"};
+	String name[] = {"Home","Send Leave","Tasks","Logout"};
+	String nameleave= this.getUserName();
+	String name3= this.getDepartment()+ " Supervisor";
 	ArrayList<Task> task= new ArrayList<Task>();
+	ArrayList<Leave> leave= new ArrayList<Leave>();
 	int noTask;
 	Staff(String UserName,int UserID, String Password, String name, String address, String userType,String department, String dob, int status)
 	{
 		super(UserName,UserID,Password,name,address,userType,department,dob,status);
+	}
+	public String getNames(int i)
+	{
+		return leave.get(i).getWhose();
+	}
+	
+	public int getSizeLeave()
+	{
+		return leave.size();
 	}
 	public void readFileTasks()
     {
@@ -51,22 +61,85 @@ public class Staff extends User{
     catch(IOException ex) {ex.printStackTrace();}
     }    
     }
-	public void getTaskReport(Task t){
-		JFrame ta= new JFrame(t.getTaskName());
+	public  ArrayList<String[]> readFileDept(String dept)
+    {
+		    BufferedReader br= null;
+		    ArrayList<String[]> arr = new ArrayList<String[]>();
+		    try
+		    {
+		    	
+		    br= new BufferedReader(new FileReader("Task.txt"));
+		    String line=null; 
+		    while((line=br.readLine())!=null)
+		    {
+			
+			String lines[]=line.split(";");
+			if(lines[2].equals(dept))
+				arr.add(lines);
+				
+		    }
+		    
+		    }catch(FileNotFoundException ex) {ex.printStackTrace();}
+		    catch(IOException ex) {ex.printStackTrace();}
+		    
+		    finally
+		    {
+		    	
+		    try{if(br!=null) br.close();}
+		    catch(IOException ex) {ex.printStackTrace();}
+		    }
+		    System.out.println(arr.size());
+		    return arr;
+    }
+	
+	public  ArrayList<String[]> readFile()
+	    {
+	    BufferedReader br= null;
+	    ArrayList<String[]> arr = new ArrayList<String[]>();
+	    try
+	    {
+    	
+	    br= new BufferedReader(new FileReader("Task.txt"));
+	    String line=null; 
+	    while((line=br.readLine())!=null)
+	    {
+		
+		String lines[]=line.split(";");
+		arr.add(lines);
+			
+	    }
+	    
+	    }catch(FileNotFoundException ex) {ex.printStackTrace();}
+	    catch(IOException ex) {ex.printStackTrace();}
+	    
+	    finally
+	    {
+	    	
+	    try{if(br!=null) br.close();}
+	    catch(IOException ex) {ex.printStackTrace();}
+	    }
+	    System.out.println(arr.size());
+	    return arr;
+    }
+	
+	public void getTaskReport(String[] str){
+		JFrame ta= new JFrame(str[0]);
 		JPanel pa = new JPanel();
+		System.out.println("YES");
 		pa.setLayout(new BoxLayout(pa,BoxLayout.Y_AXIS));
-		JLabel[] la = new JLabel[8];
-		for(int i=0;i<8;i++)
+		JLabel[] la = new JLabel[9];
+		for(int i=0;i<9;i++)
 			la[i]= new JLabel();
-		la[0].setText("Task Name :  " + t.getTaskName());//
-		la[1].setText("Task ID :  " + t.getTaskID());
-		la[2].setText("Task Department :  " + t.getTaskDept());
-		la[3].setText("Items Used :  " + t.getItems());
-		la[4].setText("Task Start Date :  " + t.getStartDate());
-		la[5].setText("Task Deadline :  " + t.getDeadline());
-		la[6].setText("Task Description :  " + t.getDes());
-		la[7].setText("Task Status :  COMPLETE");
-		for(int i=0;i<8;i++)
+		la[0].setText("Task Name :  " + str[0]);//
+		la[1].setText("Task ID :  " +str[1]);
+		la[2].setText("Task Department :  " + str[2]);
+		la[3].setText("Items Used :  " + str[3]);
+		la[4].setText("Task Start Date :  " + str[4]);
+		la[5].setText("Task Deadline :  " + str[5]);
+		la[6].setText("Task Description :  " +str[6]);
+		la[7].setText("Task Status :  "+str[7]);
+		la[8].setText("Task Staff :  "+str[8]);
+		for(int i=0;i<9;i++)
 			pa.add(la[i]);
 		ta.add(pa);
 		ta.setSize(400,200);
@@ -84,28 +157,27 @@ public class Staff extends User{
 		frame.setSize(900,500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Event e = new Event();
-		for(int i=0;i<6;i++){
+		for(int i=0;i<4;i++){
 			buttons[i]= new JButton(name[i]);
 			buttons[i].addActionListener(e);
 			buttons[i].setActionCommand(name[i]);
 			panel.add(buttons[i]);
 		}
-		buttons[5].setBackground(Color.white);
+		buttons[3].setBackground(Color.white);
 		panel.add(date);panel.add(time);
 		panel.setBackground(null);
 		date.setColumns(10);time.setColumns(8);
 		date.setEditable(false);time.setEditable(false);
-		readFileTasks();
 		frame.add(mpanel);
 		frame.setVisible(true);
 	}
 	public class Event implements ActionListener{
 		public void actionPerformed(ActionEvent e)
 		{if(e.getActionCommand()=="Home"){
-			for(int i=0;i<6;i++)
+			for(int i=0;i<4;i++)
 			{if(buttons[i].getText()!="Home")buttons[i].setBackground(null);
 			else buttons[i].setBackground(Color.PINK);}
-			buttons[5].setBackground(Color.white);
+			buttons[3].setBackground(Color.white);
 			kpanel.removeAll();
 			kpanel.revalidate();
 			rpanel.removeAll();
@@ -130,10 +202,10 @@ public class Staff extends User{
 			frame.setVisible(true);
 		}
 		if(e.getActionCommand()=="Send Leave"){
-			for(int i=0;i<6;i++)
+			for(int i=0;i<4;i++)
 			{if(buttons[i].getText()!="Send Leave")buttons[i].setBackground(null);
 			else buttons[i].setBackground(Color.PINK);}
-			buttons[5].setBackground(Color.white);
+			buttons[3].setBackground(Color.white);
 			JFrame Frame1 = new JFrame("Leave Form");
 			JLabel jlabel[] = new JLabel[4];
 			JTextField txt[] = new JTextField[4];
@@ -169,47 +241,96 @@ public class Staff extends User{
 			
 		}	
 		
-		if(e.getActionCommand()=="Staff"){
-			for(int i=0;i<6;i++)
+		if(e.getActionCommand()=="Tasks"){
+			for(int i=0;i<4;i++)
 			{if(buttons[i].getText()!="Staff")buttons[i].setBackground(null);
 			else buttons[i].setBackground(Color.PINK);}
-			getTaskReport(task.get(3));
-		}
-		if(e.getActionCommand()=="Requests"){
-			for(int i=0;i<6;i++)
-			{if(buttons[i].getText()!="Requests")buttons[i].setBackground(null);
-			else buttons[i].setBackground(Color.PINK);}
-			 JFrame Frame1 = new JFrame("Logistics Request");
-				JLabel jlabel[] = new JLabel[3];
-				JTextField txt[] = new JTextField[3];
-				
-				JPanel leavepanel= new JPanel();
-				Frame1.add(leavepanel);
-				leavepanel.setLayout(new BoxLayout(leavepanel,BoxLayout.Y_AXIS)); leavepanel.setVisible(true); Frame1.setSize(300,500);
-				JLabel l1 = new JLabel("To Whom?");JTextField j1 = new JTextField(getDepartment() + "Supervisor");leavepanel.add(l1);leavepanel.add(j1);j1.setEditable(false);
-				JLabel l2 = new JLabel("For Which Task?");JTextField j2 = new JTextField("System Generated Task Name and Task ID");leavepanel.add(l2);leavepanel.add(j2);j2.setEditable(false);
-				JLabel l3 = new JLabel("Logistics Request ID");JTextField j3 = new JTextField("System Gemerated");leavepanel.add(l3);leavepanel.add(j3);j3.setEditable(false);
-				JLabel l4 = new JLabel("Items(Quantities)");JTextField j4 = new JTextField("");leavepanel.add(l4);leavepanel.add(j4);j4.setEditable(true);
-				
-				JButton b= new JButton(); 
-				b.setText("Submit");
-				leavepanel.add(b);
-				Frame1.add(leavepanel);
-				Frame1.setVisible(true);
-				frame.setVisible(false);
-				
-				b.addActionListener(new ActionListener()
-				{
+			buttons[3].setBackground(Color.white);
+			rpanel.removeAll();
+			rpanel.revalidate();
+			kpanel.removeAll();
+			kpanel.revalidate();
+			rpanel.setLayout(new BoxLayout(rpanel,BoxLayout.Y_AXIS));
+			ArrayList<String[]> arr = new ArrayList<String[]>();
+			arr=readFile();
+			System.out.println(arr.size());
+			for(int i=0;i<arr.size();i++)
+				System.out.println(arr.get(i)[0]);
+			for(int i=0;i<arr.size();i++)
+			{
+				System.out.println("ec");
+				JLabel y = new JLabel(arr.get(i)[0]);
+				String s2=arr.get(i)[0];
+				JButton j1 = new JButton("Generate Task Report");
+				JButton j2= new JButton("Update Task Status");
+				JButton j3= new JButton("Send Logistics Request");
+				JPanel pan = new JPanel();
+				pan.add(y);pan.add(j1);pan.add(j2);pan.add(j3);
+				rpanel.add(pan);int k = arr.size();
+				String[] gt = arr.get(i);int index = i;
+				j1.addActionListener(new ActionListener(){
 					public void actionPerformed(ActionEvent e){
-						Frame1.setVisible(false);
-						frame.setVisible(true);
-					}});
-		}			
-		if(e.getActionCommand()=="Reports"){
-			for(int i=0;i<6;i++)
-			{if(buttons[i].getText()!="Reports")buttons[i].setBackground(null);
-			else buttons[i].setBackground(Color.PINK);}
+						getTaskReport(gt);
+					}
+				});
+				j2.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						Object[] options = {"ONGOING","COMPLETE"};
+						int n = JOptionPane.showOptionDialog(frame,"Update"+ "Status",gt[0],JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE,null,options,options[1]);
+						if(n==JOptionPane.YES_OPTION){gt[7]="ONGOING";}
+						if(n==JOptionPane.NO_OPTION){gt[7]="COMPLETE";}	
+						updateFile(gt[7],gt[1]);
+					}
+				});
+				j3.addActionListener(new ActionListener(){
+					public void actionPerformed(ActionEvent e){
+						//code for view
+						 JFrame Frame1 = new JFrame("Logistics Request");
+							JLabel jlabel[] = new JLabel[3];
+							JTextField txt[] = new JTextField[3];
+							
+							JPanel leavepanel= new JPanel();
+							Frame1.add(leavepanel);
+							leavepanel.setLayout(new BoxLayout(leavepanel,BoxLayout.Y_AXIS)); leavepanel.setVisible(true); 					Frame1.setSize(300,500);
+							JLabel l1 = new JLabel("To Whom?");JTextField j1 = new JTextField(getDepartment() + " Supervisor");leavepanel.add(l1);leavepanel.add(j1);j1.setEditable(false);
+							JLabel l2 = new JLabel("For Which Task?");JTextField j2 = new JTextField("System Generated Task Name and Task ID");leavepanel.add(l2);leavepanel.add(j2);j2.setEditable(false);
+							JLabel l3 = new JLabel("Logistics Request ID");JTextField j3 = new JTextField("System Gemerated");leavepanel.add(l3);leavepanel.add(j3);j3.setEditable(false);
+							JLabel l4 = new JLabel("Items(Quantities)");JTextField j4 = new JTextField("");leavepanel.add(l4);leavepanel.add(j4);j4.setEditable(true);
+							
+							JButton b= new JButton(); 
+							b.setText("Submit");
+							leavepanel.add(b);
+							Frame1.add(leavepanel);
+							Frame1.setVisible(true);
+							frame.setVisible(false);
+							Random rand = new Random(); int  id = rand.nextInt(50) + 1;
+							b.addActionListener(new ActionListener()
+							{
+								public void actionPerformed(ActionEvent e){
+		try
+		{
+		FileWriter fr= new FileWriter("logistics.txt",true);
+		BufferedWriter br= new BufferedWriter(fr);
+		PrintWriter out= new PrintWriter(br);
+		out.write(j1.getText()+";"+s2+";"+j4.getText()+";"+id+";-1;-1");
+		out.write("\n");
+		out.close();
 		}
+		catch(Exception ex)
+		{ex.printStackTrace();}
+									Frame1.setVisible(false);
+									frame.setVisible(true);
+								}});
+					}
+				});
+				
+				
+			}
+			mpanel.add(rpanel);
+			frame.setVisible(true);
+			
+		}
+				
 		if(e.getActionCommand()=="Logout"){
 			frame.remove(panel);
 			frame.dispose();
@@ -220,10 +341,35 @@ public class Staff extends User{
 		}
 		
 		}
-		
-		
-		
-	}
+		public void updateFile(String y,String u) 
+		{
+			ArrayList<String[]> arr = new ArrayList<String[]>();
+			arr=readFile();
+			System.out.print(arr.size());
+			try
+			{
+			FileWriter fr= new FileWriter("Task.txt",false);
+			BufferedWriter br= new BufferedWriter(fr);
+			PrintWriter out= new PrintWriter(br);
+			for(int l=0;l<arr.size();l++)
+			{
+				System.out.print(l);
+					out.write(arr.get(l)[0]+";");
+					out.write(arr.get(l)[1]+";");
+					out.write(arr.get(l)[2]+";");
+					out.write(arr.get(l)[3]+";");
+					out.write(arr.get(l)[4]+";");
+					out.write(arr.get(l)[5]+";");
+					out.write(arr.get(l)[6]+";");
+					if(arr.get(l)[1].equals(u))
+						out.write(y+";");
+					else
+						out.write(arr.get(l)[7]+";");
+					out.write(arr.get(l)[8]);
+					out.write("\n");
+				
+				}out.close();}
+			
+				catch(Exception E)
+				{E.printStackTrace();}}}}
 	
-
-}

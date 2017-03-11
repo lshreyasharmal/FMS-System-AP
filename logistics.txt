@@ -1,0 +1,1 @@
+Electricity Supervisor;R-78;fan,guewh;5;-1;-1

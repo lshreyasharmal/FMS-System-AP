@@ -1,3 +1,4 @@
+//@author:Shreya Sharma(2015096) Ishmeet Kaur(2015042)
 import java.awt.*;
 import java.awt.event.*;
 import java.text.SimpleDateFormat;
@@ -30,16 +31,15 @@ public class Admin extends User{
    public static Admin getInstance(){
       return instance;
    }
-   public void generateTask()
+   public void generateTask(String dep)
    {
-	   JFrame Frame1 = new JFrame("Generate Task");
-		JLabel jlabel[] = new JLabel[5];
-		JTextField txt[] = new JTextField[5];
-		
-		JPanel leavepanel= new JPanel();
+	    JFrame Frame1 = new JFrame("Generate Task");
+	   JLabel jlabel[] = new JLabel[5];
+	   JTextField txt[] = new JTextField[5];
+	   JPanel leavepanel= new JPanel();
 		Frame1.add(leavepanel);
 		leavepanel.setLayout(new BoxLayout(leavepanel,BoxLayout.Y_AXIS)); leavepanel.setVisible(true); Frame1.setSize(300,500);
-		String labelname[] = {"Task Name","Task Department","Task Pupose","Equipment","Deadline"};
+		String labelname[] = {"Task Name","Assign Users to the task","Task Description","Equipment","Deadline(DD/MM/YYYY or NIL)"};
 		for(int i=0;i<5;i++)
 		{
 			jlabel[i] = new JLabel(labelname[i]);
@@ -48,6 +48,7 @@ public class Admin extends User{
 			leavepanel.add(jlabel[i]);
 			leavepanel.add(txt[i]);
 		}
+		String ddate = new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date());
 		JButton b= new JButton(); 
 		b.setText("Submit");
 		leavepanel.add(b);
@@ -58,6 +59,8 @@ public class Admin extends User{
 		b.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e){
+				Task t = new Task(null,null, 0,null,null,null,null,null);
+				t.WriteFile(txt[0].getText(),dep,txt[3].getText(),ddate,txt[4].getText(),txt[2].getText(),txt[1].getText());
 				Frame1.setVisible(false);
 				frame.setVisible(true);
 			}});
@@ -65,10 +68,9 @@ public class Admin extends User{
  //GUI For admin
    public void adminGUI()
 	{
-	   mpanel.removeAll();
-	   mpanel.revalidate();
 	   	mpanel.setLayout(new BoxLayout(mpanel,BoxLayout.Y_AXIS));
 	   	mpanel.add(panel);
+	   	//mpanel.setBackground(Color.blue);
 	   	String ddate = new SimpleDateFormat("yyyy.MM.dd").format(new java.util.Date());
 	 	String ttime = new SimpleDateFormat("HH.mm.ss").format(new java.util.Date());
 	 	TextField date = new TextField(ddate);
@@ -110,6 +112,7 @@ public class Admin extends User{
 					jlabel[i]= new JLabel();
 					rpanel.add(jlabel[i]);
 				}
+				//rpanel.setBackground(Color.pink);
 				rpanel.add(kpanel);
 				
 				mpanel.add(rpanel);
@@ -130,11 +133,30 @@ public class Admin extends User{
 				rpanel.removeAll();rpanel.revalidate();kpanel.removeAll();
 				kpanel.revalidate();
 				rpanel.setLayout(new BoxLayout(rpanel,BoxLayout.Y_AXIS));
-				for(int i=0;i<5;i++)
+				for(int j=0;j<5;j++)
 				{
-					depts[i]=new JButton(dname[i]);
-					depts[i].setActionCommand(dname[i]);
-					kpanel.add(depts[i]);
+					depts[j]=new JButton(dname[j]);
+					String str = depts[j].getText();
+					
+					depts[j].addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+						JButton genTask = new JButton("Generate Task");
+						JPanel ja = new JPanel();ja.add(genTask);
+						rpanel.add(ja);mpanel.add(rpanel);
+						genTask.addActionListener(new ActionListener()
+						{
+							public void actionPerformed(ActionEvent e)
+							{
+								generateTask(str);
+							}
+							
+						});
+						frame.setVisible(true);}	
+					});
+					
+					kpanel.add(depts[j]);
 				}
 				rpanel.add(kpanel);
 				mpanel.add(rpanel);
@@ -143,6 +165,7 @@ public class Admin extends User{
 				
 				
 			}	
+			
 			
 			if(e.getActionCommand()=="Staff"){
 				for(int i=0;i<5;i++)
@@ -153,15 +176,62 @@ public class Admin extends User{
 				rpanel.revalidate();kpanel.removeAll();
 				kpanel.revalidate();
 				rpanel.setLayout(new BoxLayout(rpanel,BoxLayout.Y_AXIS));
-				for(int i=0;i<5;i++)
+				ArrayList<String> names = new ArrayList<String>(); 
+				ArrayList<String> info= new ArrayList<String>();
+				ArrayList<Integer> index= new ArrayList<>();
+				system s= new system();
+				int x=s.getRequests().size(); int i;
+				for( i=0;i<x;i++)
+				{
+					System.out.println(i);
+					if(s.getReq(i)==1) {names.add(s.getName(i));info.add(s.getInfo(i)); index.add(i); }
+				}				
+				for( i=0;i<names.size();i++)
 				{
 					JPanel lpanel = new JPanel();JButton a = new JButton("Delete");
 					JButton v = new JButton("View");
-					JLabel t = new JLabel("Will you dance ?");v.addActionListener(new Event());
-					lpanel.add(t);a.setBackground(Color.green);
-					lpanel.add(a);a.setActionCommand("delete");v.setBackground(Color.CYAN);
-					a.addActionListener(new Event());
-					lpanel.add(v);v.setActionCommand("view");
+					JLabel t = new JLabel(names.get(i));
+					lpanel.add(t);a.setBackground(Color.red);
+					String str= info.get(i);
+					v.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							String[] line = str.split(",",-1);
+							JFrame ta= new JFrame(line[0]);
+							JPanel pa = new JPanel();
+							pa.setLayout(new BoxLayout(pa,BoxLayout.Y_AXIS));
+							JLabel[] la = new JLabel[8];
+							for(int i=0;i<6;i++)
+								la[i]= new JLabel();
+							la[0].setText("Username :  " + line[0]);//
+							la[1].setText("Name :  " + line[1]);
+							la[2].setText("Address :  " + line[2]);
+							la[3].setText("UserType :  " + line[3]);
+							la[4].setText("Department :  " +line[4]);
+							la[5].setText("DOB :  " + line[5]);
+							for(int i=0;i<6;i++)
+								pa.add(la[i]);
+							ta.add(pa);
+							ta.setSize(400,200);
+							ta.setVisible(true);
+						}
+					});	
+					int chu= index.get(i); String y=names.get(i);
+					a.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							JOptionPane.showMessageDialog(null, "Deleted");
+							t.setText(y+ " deleted.");
+							System.out.println(t.getText());
+							a.setVisible(false); v.setVisible(false);
+							s.removeUser(chu);
+						}
+					});
+					lpanel.add(a);
+					
+					lpanel.add(v);
 					rpanel.add(lpanel);
 				}
 				mpanel.add(rpanel);
@@ -193,23 +263,43 @@ public class Admin extends User{
 				
 			}			
 			if(e.getActionCommand()=="Reports"){
+				System.out.println("ecygj");
 				for(int i=0;i<5;i++)
 				{if(buttons[i].getText().equals("Reports"))buttons[i].setBackground(Color.pink);
 				else buttons[i].setBackground(null);}
 				buttons[5].setBackground(Color.white);
+				System.out.println("u");
 				rpanel.removeAll();
-				rpanel.revalidate();kpanel.removeAll();
+				rpanel.revalidate();
+				kpanel.removeAll();
 				kpanel.revalidate();
 				rpanel.setLayout(new BoxLayout(rpanel,BoxLayout.Y_AXIS));
-				for(int i=0;i<1;i++)
+				Staff u = new Staff(null,0,null,null,null,null,null,null,0);
+				ArrayList<String[]> arr = new ArrayList<String[]>();
+				arr=u.readFile();
+				System.out.println(arr.size());
+				for(int i=0;i<arr.size();i++)
+					System.out.println(arr.get(i)[0]);
+				for(int i=0;i<arr.size();i++)
 				{
-					depts[i]=new JButton("huhu");
-					kpanel.add(depts[i]);
+					System.out.println("ec");
+					JLabel y = new JLabel(arr.get(i)[0]);
+					JButton j = new JButton("View");
+					j.setBackground(Color.cyan);
+					JPanel pan = new JPanel();
+					pan.add(y);pan.add(j);
+					rpanel.add(pan);
+					String[] gt = arr.get(i);
+					j.addActionListener(new ActionListener(){
+						public void actionPerformed(ActionEvent e){
+							//code for view
+							u.getTaskReport(gt);
+						}
+					});
+					
 				}
-				rpanel.add(kpanel);
 				mpanel.add(rpanel);
-				frame.setVisible(true);
-				
+			
 				frame.setVisible(true);
 			}
 			if(e.getActionCommand()=="Logout"){
@@ -228,10 +318,11 @@ public class Admin extends User{
 				b3.setBackground(null);
 				mrpanel.removeAll();
 				mrpanel.revalidate();
-				
 				mrpanel.setLayout(new BoxLayout(mrpanel,BoxLayout.Y_AXIS));
 								system s=new system();
-				int i,f;
+				
+				//System.out.println("here" + s.getRequests().size());
+				int i;
 				ArrayList<String> arr = new ArrayList<String>(); 
 				ArrayList<String> info= new ArrayList<String>();
 				ArrayList<Integer> index= new ArrayList<>();
@@ -246,8 +337,7 @@ public class Admin extends User{
 				 for( i=0;i<arr.size();i++)
 				 {
 					JPanel lpanel = new JPanel();JButton a = new JButton("Approve");
-					JButton r = new JButton("Reject");JButton v = new JButton("view");
-					//********************VIEW******************//
+					JButton r = new JButton("Reject");JButton v = new JButton("view");	
 					String y=arr.get(i); JLabel t = new JLabel(y);
 					String str= info.get(i);
 					v.addActionListener(new ActionListener()
@@ -273,8 +363,7 @@ public class Admin extends User{
 							ta.setSize(400,200);
 							ta.setVisible(true);
 						}
-					});	
-					//*******************APPROVAL****************************************		
+					});			
 					int chu= index.get(i);
 					a.addActionListener(new ActionListener()
 					{
@@ -285,10 +374,21 @@ public class Admin extends User{
 							System.out.println(t.getText());
 							a.setVisible(false); r.setVisible(false); v.setVisible(false);
 							s.setUserStatus(chu);
-							
 						}
-					});					
-						
+					});
+					
+					r.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							JOptionPane.showMessageDialog(null, "Rejected");
+							t.setText(y+ " rejected.");
+							System.out.println(t.getText());
+							a.setVisible(false); r.setVisible(false); v.setVisible(false);
+							s.removeUser(chu);
+						}
+					});
+										
 					lpanel.add(t);a.setBackground(Color.green);r.setBackground(Color.red);
 					lpanel.add(a);a.setActionCommand("approve");v.setBackground(Color.CYAN);
 					lpanel.add(r);r.setActionCommand("reject");
@@ -306,11 +406,98 @@ public class Admin extends User{
 				mrpanel.removeAll();
 				mrpanel.revalidate();
 				mrpanel.setLayout(new BoxLayout(mrpanel,BoxLayout.Y_AXIS));
-				for(int i=0;i<5;i++)
+				//read leaves from file.
+				ArrayList<Leave> leave= new ArrayList<>();
+	BufferedReader br= null;
+    try
+    {
+    br= new BufferedReader(new FileReader("leave.txt"));
+    String line=null; 
+    while((line=br.readLine())!=null)
+    {
+	Leave mmm= new Leave(null,null,null,null,0,null);
+	String lines[]=line.split(",");
+	String name =lines[0];
+	String dob=lines[1];
+	String addr=lines[2];
+	String type=lines[3];
+	int x =Integer.parseInt(lines[4]);
+	String dept=lines[5];
+	mmm= new Leave(name,dob,addr,type,x,dept);
+	if(x==-1)leave.add(mmm);
+    }
+	//noUsers=users.size();
+    }catch(FileNotFoundException ex) {ex.printStackTrace();}
+    catch(IOException ex) {ex.printStackTrace();}
+    finally
+    {
+    try{if(br!=null) br.close();}
+    catch(IOException ex) {ex.printStackTrace();}
+    } 
+ 
+				for(int i=0;i<leave.size();i++)
 				{
 					JPanel lpanel = new JPanel();JButton a = new JButton("Approve");
 					JButton r = new JButton("Reject");JButton v = new JButton("view");
-					JLabel t = new JLabel("Will you dance ?");v.addActionListener(new Event());
+					JLabel t = new JLabel(leave.get(i).getWhose());v.addActionListener(new Event());
+							String[] line= new String[4];
+							line[0]=leave.get(i).getWhose();
+							line[1]=leave.get(i).getReason();
+							line[2]=leave.get(i).getFrom();
+							line[3]=leave.get(i).getTo();
+					v.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							//String[] line = str.split(",",-1);
+
+							JFrame ta= new JFrame(line[0]);
+							JPanel pa = new JPanel();
+							pa.setLayout(new BoxLayout(pa,BoxLayout.Y_AXIS));
+							JLabel[] la = new JLabel[8];
+							for(int i=0;i<4;i++)
+								la[i]= new JLabel();
+							la[0].setText("Username :  " +line[0] );//
+							la[1].setText("Reason :  " + line[1]);
+							la[2].setText("From :  " +line[2] );
+							la[3].setText("To :  " + line[3]);
+							for(int i=0;i<4;i++)
+								pa.add(la[i]);
+							ta.add(pa);
+							ta.setSize(400,200);
+							ta.setVisible(true);
+						}
+					});			
+					
+					int chu= i;
+					system s= new system();
+//					Leave l = leave.get(0);
+					a.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							JOptionPane.showMessageDialog(null, "Approved");
+							t.setText(line[0] + "'s leave approved.");
+							System.out.println(t.getText());
+							a.setVisible(false); r.setVisible(false); v.setVisible(false);
+							//set status to 1 in file.
+							s.setUserStatusLeave(chu);
+
+						}
+					});
+					
+					r.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							JOptionPane.showMessageDialog(null, "Rejected");
+							t.setText(line[0] + "'s leave rejected.");
+							System.out.println(t.getText());
+							a.setVisible(false); r.setVisible(false); v.setVisible(false);
+							s.removeUserLeave(chu);
+						}
+					});
+					
 					lpanel.add(t);a.setBackground(Color.green);r.setBackground(Color.red);
 					lpanel.add(a);a.setActionCommand("approve");v.setBackground(Color.CYAN);
 					lpanel.add(r);r.setActionCommand("reject");a.addActionListener(new Event());
@@ -320,30 +507,119 @@ public class Admin extends User{
 				rpanel.add(mrpanel);
 				frame.setVisible(true);
 				}
-			if(e.getActionCommand()=="Logistics Request"){
+			if(e.getActionCommand().equals("Logistics Request")){
 				b3.setBackground(Color.pink);
 				b1.setBackground(null);
 				b2.setBackground(null);
 				mrpanel.removeAll();
 				mrpanel.revalidate();
 				mrpanel.setLayout(new BoxLayout(mrpanel,BoxLayout.Y_AXIS));
-				for(int i=0;i<3;i++)
+				ArrayList<Logistics> leave= new ArrayList<>();
+				ArrayList<Integer> index= new ArrayList<>(); int it=0;
+	BufferedReader br= null;
+    try
+    {
+    br= new BufferedReader(new FileReader("logistics.txt"));
+    String line=null; 
+    while((line=br.readLine())!=null)
+    {
+	Logistics mmm= new Logistics(null,null,null,0,0,0);
+	String lines[]=line.split(";");
+	String name =lines[0];
+	String dob=lines[1];
+	String addr=lines[2];
+	int x =Integer.parseInt(lines[3]);
+	int y =Integer.parseInt(lines[4]);
+	int z =Integer.parseInt(lines[5]);
+	mmm= new Logistics(name,dob,addr,x,y,z);
+	if(z==-1) {leave.add(mmm); index.add(it); };
+	it++;
+    }
+	//noUsers=users.size();
+    }catch(FileNotFoundException ex) {ex.printStackTrace();}
+    catch(IOException ex) {ex.printStackTrace();}
+    finally
+    {
+    try{if(br!=null) br.close();}
+    catch(IOException ex) {ex.printStackTrace();}
+    } 
+ 
+				for(int i=0;i<leave.size();i++)
 				{
 					JPanel lpanel = new JPanel();JButton a = new JButton("Approve");
 					JButton r = new JButton("Reject");JButton v = new JButton("view");
-					JLabel t = new JLabel("please lets go out?");
+					JLabel t = new JLabel(leave.get(i).getTask());v.addActionListener(new Event());
+							String[] line= new String[3];
+							line[0]=leave.get(i).getTask();
+							//line[1]=leave.get(i).getID();
+							int hello=leave.get(i).getID();
+							line[2]=leave.get(i).getItems();
+							//line[3]=leave.get(i).getTo();
+					v.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							//String[] line = str.split(",",-1);
+
+							JFrame ta= new JFrame(line[0]);
+							JPanel pa = new JPanel();
+							pa.setLayout(new BoxLayout(pa,BoxLayout.Y_AXIS));
+							JLabel[] la = new JLabel[8];
+							for(int i=0;i<3;i++)
+								la[i]= new JLabel();
+							la[0].setText("Task name :  " +line[0] );//
+							la[1].setText("Request ID :  " + hello);
+							la[2].setText("Items :  " +line[2] );
+							//la[3].setText("To :  " + line[3]);
+							for(int i=0;i<3;i++)
+								pa.add(la[i]);
+							ta.add(pa);
+							ta.setSize(400,200);
+							ta.setVisible(true);
+						}
+					});			
+					
+					int chu= index.get(i);
+					system s= new system();
+//					Leave l = leave.get(0);
+					a.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							JOptionPane.showMessageDialog(null, "Approved");
+							t.setText(line[0] + "'s logistics approved.");
+							System.out.println(t.getText());
+							a.setVisible(false); r.setVisible(false); v.setVisible(false);
+							//set status to 1 in file.
+							s.setUserStatusLog2(chu);
+
+						}
+					});
+					
+					r.addActionListener(new ActionListener()
+					{
+						public void actionPerformed(ActionEvent e)
+						{
+							JOptionPane.showMessageDialog(null, "Rejected");
+							t.setText(line[0] + "'s logistics rejected.");
+							System.out.println(t.getText());
+							a.setVisible(false); r.setVisible(false); v.setVisible(false);
+							s.removeUserLog(chu);
+						}
+					});
+					
 					lpanel.add(t);a.setBackground(Color.green);r.setBackground(Color.red);
 					lpanel.add(a);a.setActionCommand("approve");v.setBackground(Color.CYAN);
-					lpanel.add(r);r.setActionCommand("reject");
-					lpanel.add(v);v.setActionCommand("view");
+					lpanel.add(r);r.setActionCommand("reject");a.addActionListener(new Event());
+					lpanel.add(v);v.setActionCommand("view");r.addActionListener(new Event());
 					mrpanel.add(lpanel);
 				}
 				rpanel.add(mrpanel);
 				frame.setVisible(true);
-			}
+				}
+	
 			
-			
-		}
+	}
 		
 }
 

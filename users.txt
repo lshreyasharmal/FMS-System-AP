@@ -10,5 +10,4 @@
 10,name5,05/01/1990,delhi,staff,HVAC,user5,pass5,1
 11,name6,06/01/1990,delhi,staff,Housekeeping,user6,pass6,1
 12,name7,07/01/1990,delhi,staff,Electricity,user7,pass7,1
-13,name8,08/01/1990,delhi,staff,Security,user8,pass8,1
-14,ISHMEET,20/02/1998,V P,staff,Electricity,ishi,pass,1
+15,Ridhi,23/03/1995,iiit delhi,staff,Electricity,ridhijain,pass,1
