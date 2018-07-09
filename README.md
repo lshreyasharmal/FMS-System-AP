@@ -16,7 +16,7 @@ Users in the system:
   4. Audio/video supervisor and staff  
   5. Security supervisor and security staff  
   6. Housekeeping supervisor and staff  
-  Functional Requirements:      
+Functional Requirements:      
   1. GM, supervisors and staff can login and logout of the system.  
   2. Every user gets a unique ID and username when added to the system.  
   3. There can be only one admin of the system and one supervisor from each
