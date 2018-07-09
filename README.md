@@ -45,14 +45,13 @@ Functional Requirements:
     d. Generate task report (Can be saved in pdf or text format).  
   8. When a staffer is being assigned a task, his/her status (Busy (till when), Available,
     on Leave (till when)) should be visible to department supervisors/admin.  
-  9.Tasks:  
+  9. Tasks:  
     a. Tasks may or may not have a completion deadline.  
     b. Staffer reports back on his/her assigned task with one of the three statuses:  
-     1. NOT STARTED (default)
-     2. ONGOING
-     3. COMPLETE  
-     
-  c. If status is COMPLETE then staffer should have the option to generate a task
-  completion report.  
-  d. Task assignments and reportings must all be accompanied with a system
-  generated timestamp.  
+      1. NOT STARTED (default)
+      2. ONGOING
+      3. COMPLETE  
+    c. If status is COMPLETE then staffer should have the option to generate a task
+     completion report.  
+    d. Task assignments and reportings must all be accompanied with a system
+     generated timestamp.  
