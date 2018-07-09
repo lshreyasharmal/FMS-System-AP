@@ -16,6 +16,7 @@ Users in the system:
   4. Audio/video supervisor and staff  
   5. Security supervisor and security staff  
   6. Housekeeping supervisor and staff  
+  
 Functional Requirements:      
   1. GM, supervisors and staff can login and logout of the system.  
   2. Every user gets a unique ID and username when added to the system.  
@@ -50,6 +51,7 @@ Functional Requirements:
      1. NOT STARTED (default)
      2. ONGOING
      3. COMPLETE  
+     
   c. If status is COMPLETE then staffer should have the option to generate a task
   completion report.  
   d. Task assignments and reportings must all be accompanied with a system
