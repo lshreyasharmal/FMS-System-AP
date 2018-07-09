@@ -15,8 +15,8 @@ Users in the system:
   3. HVAC supervisor and staff  
   4. Audio/video supervisor and staff  
   5. Security supervisor and security staff  
-  6. Housekeeping supervisor and staff    
-Functional Requirements:    
+  6. Housekeeping supervisor and staff  
+  Functional Requirements:    
   1. GM, supervisors and staff can login and logout of the system.  
   2. Every user gets a unique ID and username when added to the system.  
   3. There can be only one admin of the system and one supervisor from each
@@ -42,14 +42,14 @@ Functional Requirements:
     b. Send leave to department supervisor.  
     c. Update status of the task to ONGOING or COMPLETE.  
     d. Generate task report (Can be saved in pdf or text format).  
-    e. When a staffer is being assigned a task, his/her status (Busy (till when), Available,
+  8. When a staffer is being assigned a task, his/her status (Busy (till when), Available,
     on Leave (till when)) should be visible to department supervisors/admin.  
-  8.Tasks:  
+  9.Tasks:  
     a. Tasks may or may not have a completion deadline.  
     b. Staffer reports back on his/her assigned task with one of the three statuses:  
      1. NOT STARTED (default)
      2. ONGOING
-     3. COMPLETE
+     3. COMPLETE  
     c. If status is COMPLETE then staffer should have the option to generate a task
   completion report.  
     d. Task assignments and reportings must all be accompanied with a system
