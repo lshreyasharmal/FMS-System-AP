@@ -50,7 +50,7 @@ Users in the system:
      1. NOT STARTED (default)
      2. ONGOING
      3. COMPLETE  
-    c. If status is COMPLETE then staffer should have the option to generate a task
+  c. If status is COMPLETE then staffer should have the option to generate a task
   completion report.  
-    d. Task assignments and reportings must all be accompanied with a system
+  d. Task assignments and reportings must all be accompanied with a system
   generated timestamp.  
